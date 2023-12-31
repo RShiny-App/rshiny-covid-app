@@ -1,0 +1,5 @@
+Shiny tags html (Zugriff 31.12.23):
+* https://shiny.posit.co/r/articles/build/html-tags/
+
+Logo in titlePanel (Zugriff 31.12.23):
+* https://stackoverflow.com/questions/36182535/how-to-place-an-image-in-an-r-shiny-title
