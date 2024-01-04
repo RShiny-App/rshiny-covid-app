@@ -24,8 +24,8 @@ fluidPage(
   
     # tabset panel with different contents
     tabsetPanel(
-      # introduction tab
-      tabPanel("Introduction",
+      tabPanel("Einführung",
+               # introduction tab
                # content of introduction
                fluidRow(
                  column(12,
@@ -34,9 +34,9 @@ fluidPage(
                           p("Hier sollte eine Einführung zu Covid 19 stehen")
                         ))
                )),
-      # graph tab
-      tabPanel("GraphA",
-               # content of graph A
+
+      tabPanel("Impfstoffe",
+               # table: how many doses of which vaccine were given in total + Which vaccine had the most additional doses?
                fluidRow(
                  column(12,
                         tags$div(
@@ -44,9 +44,10 @@ fluidPage(
                           p("Hier steht bald ein Graph.")
                         ))
                )),
-      # graph tab
-      tabPanel("GraphB",
-               # content of graph B
+
+      tabPanel("Länder",
+               # bar chart: most vaccinations per country in a side bar panel
+               # table: In which countries were the most vaccinated
                fluidRow(
                  column(12,
                         tags$div(
@@ -54,8 +55,34 @@ fluidPage(
                           p("Hier steht bald ein Graph.")
                         ))
                )),
-      # about tab
-      tabPanel("About",
+
+      tabPanel("Ablehnungsrate",
+               # line graph: refusal rate over time
+               # table: In which country was the refusal rate highest
+               # line graph
+               fluidRow(
+                 column(12,
+                        tags$div(
+                          h3("Graph B"),
+                          p("Hier steht bald ein Graph.")
+                        ))
+               )),
+      
+      tabPanel("Zielgruppen",
+               # pie chart + line graph: comparison of target groups 
+               # per unit of time
+               # per country
+               # in dropdown menus
+               fluidRow(
+                 column(12,
+                        tags$div(
+                          h3("Graph B"),
+                          p("Hier steht bald ein Graph.")
+                        ))
+               )),
+
+      tabPanel("Über uns",
+               # about tab
                fluidRow(
                  column(12,
                         tags$div(
