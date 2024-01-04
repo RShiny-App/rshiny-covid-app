@@ -40,7 +40,7 @@ fluidPage(
                fluidRow(
                  column(12,
                         tags$div(
-                          h3("Graph A"),
+                          h3("Platzhalter Überschrift"),
                           p("Hier steht bald ein Graph.")
                         ))
                )),
@@ -51,7 +51,7 @@ fluidPage(
                fluidRow(
                  column(12,
                         tags$div(
-                          h3("Graph B"),
+                          h3("Platzhalter Überschrift"),
                           p("Hier steht bald ein Graph.")
                         ))
                )),
@@ -63,7 +63,7 @@ fluidPage(
                fluidRow(
                  column(12,
                         tags$div(
-                          h3("Graph B"),
+                          h3("Platzhalter Überschrift"),
                           p("Hier steht bald ein Graph.")
                         ))
                )),
@@ -76,7 +76,7 @@ fluidPage(
                fluidRow(
                  column(12,
                         tags$div(
-                          h3("Graph B"),
+                          h3("Platzhalter Überschrift"),
                           p("Hier steht bald ein Graph.")
                         ))
                )),
@@ -86,8 +86,27 @@ fluidPage(
                fluidRow(
                  column(12,
                         tags$div(
-                          h3("Contributors"),
-                          p("Alexander Metzler, Florian Hauptmann, Yannik Krantz")
+                          h3("Über unsere App"),
+                          p('Willkommen zur "Covid App", entwickelt von Yannik 
+                            Krantz, Alexander Metzler und Florian Hauptmann, 
+                            Studierenden im fünften Fachsemester des 
+                            Studiengangs Data Science in der Medizin. Diese App 
+                            entstand im Rahmen unserer Projektarbeit im 
+                            Wahlpflichtfach "Einführung in R und Shiny Apps" 
+                            und dient gleichzeitig als Prüfungsleistung.'),
+                          br(),
+                          h3("Funktionen der App"),
+                          p('Die "Covid App" bietet eine intuitive 
+                            Benutzeroberfläche, die es ermöglicht, Daten im 
+                            Zusammenhang mit COVID-19-Impfungen in den Ländern 
+                            der Europäischen Union und des Europäischen 
+                            Wirtschaftsraums zu visualisieren. Die App 
+                            präsentiert umfassende Informationen über die 
+                            Verteilung von Impfstoffdosen, Verabreichungsraten 
+                            und Ablehnungsstatistiken.'),
+                          br(),
+                          h4("Entwickler"),
+                          p("Yannik Krantz, Alexander Metzler, Florian Hauptmann")
                         ))
                ))
     )
