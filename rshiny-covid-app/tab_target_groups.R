@@ -38,12 +38,27 @@ sum_first_dose <- df_tibble %>%
   arrange(desc(Sum_FirstDose))
 
 # pie chart
-pie_chart <- ggplot(sum_first_dose, aes(x = "", y = Sum_FirstDose, fill = TargetGroup)) +
-  geom_bar(stat = "identity", width = 1, color = "white") +
-  coord_polar("y", start = 0) +
-  theme_void() +
-  labs(title = "Verteilung der FirstDose nach Altersgruppen")
+# pie_chart <- ggplot(sum_first_dose, aes(x = "", y = Sum_FirstDose, fill = TargetGroup)) +
+#   geom_bar(stat = "identity", width = 1, color = "white") +
+#   coord_polar("y", start = 0) +
+#   theme_void() +
+#   labs(title = "Verteilung der FirstDose nach Altersgruppen")
+# 
+# print(pie_chart)
 
-print(pie_chart)
 
 
+# Plotly Pie-Chart erstellen
+# refrence https://plotly.com/r/pie-charts/
+fig <- plot_ly(sum_first_dose, 
+               labels = ~TargetGroup, 
+               values = ~Sum_FirstDose, 
+               type = 'pie',
+               hoverinfo = 'label+value')
+fig <- fig %>% layout(
+  title = 'Verteilung der FirstDose nach Altersgruppen',
+  xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+  yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
+)
+
+fig
