@@ -105,6 +105,11 @@ fluidPage(
                             Verteilung von Impfstoffdosen, Verabreichungsraten 
                             und Ablehnungsstatistiken.'),
                           br(),
+                          h4("Weitere Informationen"),
+                          p("Besuchen Sie diese Website für weitere 
+                            Informationen über den Datensatz: ",
+                            a(href="https://www.ecdc.europa.eu/en/publications-data/data-covid-19-vaccination-eu-eea", "Hier klicken")),
+                          br(),
                           h4("Entwickler"),
                           p("Yannik Krantz, Alexander Metzler, Florian Hauptmann")
                         ))
