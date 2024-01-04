@@ -5,7 +5,7 @@ library(plotly)
 
 rm(list = ls())
 
-df_tibble = as_tibble(readr::read_csv("rshiny-covid-app/resources/data.csv"))
+df_tibble = as_tibble(readr::read_csv("D:/Code/rstudio_workbench/rshiny-covid-app/rshiny-covid-app/resources/data.csv"))
 
 View(df_tibble)
 
@@ -32,7 +32,7 @@ selected_target_groups <- c("Age0_4", "Age5_9", "Age10_14", "Age15_17",
 
 # sum value of first dose per target group (selected target groups)
 sum_first_dose <- df_tibble %>%
-  filter(TargetGroup %in% selected_target_groups) %>%
+  dplyr::filter(TargetGroup %in% selected_target_groups) %>%
   group_by(TargetGroup) %>%
   summarise(Sum_FirstDose = sum(FirstDose, na.rm = TRUE)) %>%
   arrange(desc(Sum_FirstDose))
@@ -62,3 +62,4 @@ fig <- fig %>% layout(
 )
 
 fig
+

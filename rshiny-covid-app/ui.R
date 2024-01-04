@@ -73,13 +73,21 @@ fluidPage(
                # per unit of time
                # per country
                # in dropdown menus
-               fluidRow(
-                 column(12,
-                        tags$div(
-                          h3("Platzhalter Überschrift"),
-                          p("Hier steht bald ein Graph.")
-                        ))
-               )),
+               sidebarPanel(
+                 # left side of panel
+                 # Dropdown-Menü for countries and adding "All" for all countries
+                 selectInput("selectedCountry", "Wähle ein Land aus:",
+                             choices = c("All", unique(df_tibble$ReportingCountry)),
+                             selected = "All")),
+               mainPanel(
+                 # pie chart plot
+                 # reference: https://stackoverflow.com/questions/41255810/r-shinyapp-not-showing-plot-ly-in-browser-but-show-only-graph-in-viewer-pane
+                 plotlyOutput("target_group_pie"),
+                 
+                 # Table of target group descriptions
+                 dataTableOutput("target_group_description_table")
+               )
+      ),
 
       tabPanel("Über uns",
                # about tab
