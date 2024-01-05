@@ -24,13 +24,8 @@ fluidPage(
 
   # Application title
   titlePanel(title=tags$div(
-<<<<<<< HEAD:rshiny-covid-app/ui.R
-    #img(src="rshiny-covid-app/www/logo.svg", 
-    img(src="https://www.thu.de/_catalogs/masterpage/HSUlm/images/logo.svg", 
-=======
     # img(src="../www/logo.svg", 
-    #img(src="https://www.thu.de/_catalogs/masterpage/HSUlm/images/logo.svg", 
->>>>>>> main:rshiny-covid-app/app/ui.R
+    img(src="https://www.thu.de/_catalogs/masterpage/HSUlm/images/logo.svg", 
     alt="thu_logo", 
     height=60,
     align="right"), "Covid App")),
