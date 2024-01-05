@@ -30,5 +30,3 @@ df$Week <- as.numeric(substr(df$YearWeekISO, 7, 8))
 #
 df <- df %>% relocate(Year, .after = YearWeekISO)
 df <- df %>% relocate(Week, .after = Year)
-
-View(df)
