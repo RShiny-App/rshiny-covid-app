@@ -75,6 +75,5 @@ function(input, output, session) {
         showticklabels = FALSE
       )
     )
-    
   })
 }
