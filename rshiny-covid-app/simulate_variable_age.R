@@ -1,8 +1,12 @@
 library(readr)
 library(dplyr)
 
+# Get the directory path of the currently running script
+script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 getwd()
-setwd("D:/Code/rstudio_workbench/rshiny-covid-app/rshiny-covid-app/")
+
+# Set script_dir as current working directory
+setwd(script_dir)
 
 df <- readr::read_csv("resources/data.csv")
 
