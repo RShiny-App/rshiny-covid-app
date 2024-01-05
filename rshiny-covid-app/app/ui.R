@@ -21,11 +21,14 @@ countries <- c("All", "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "EL",
                "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK")
 
 fluidPage(
+  tags$head(
+    tags$link(rel = "stylesheet", href = "style.css")
+  ),
 
   # Application title
   titlePanel(title=tags$div(
     # img(src="../www/logo.svg", 
-    img(src="https://www.thu.de/_catalogs/masterpage/HSUlm/images/logo.svg", 
+    img(src="logo.svg", 
     alt="thu_logo", 
     height=60,
     align="right"), "Covid App")),
@@ -39,7 +42,10 @@ fluidPage(
                  column(12,
                         tags$div(
                           h3("Einführung zu Covid-19"),
-                          p("Hier sollte eine Einführung zu Covid 19 stehen")
+                          h5("Kurzinformation:"),
+                          p("Die Krankheit COVID-19, Kurzform für „Coronavirus Disease 2019“ [], ist eine Infektionskrankheit, welche durch den Erreger SARS-CoV-2 verursacht wird. Dieses Virus war Anfang 2020 der Auslöser der COVID-19-Pandemie. Der Hauptübertragungsweg des Virus ist die Tröpfcheninfektion, also über kleine Aerosole, die eingeatmet werden. Zu den häufigsten Symptomen zählen Husten, Fieber, Schnupfen und die Störung des Geschmacks- und Geruchssinns. Besonders risikobehaftet sind vor allem ältere Personen und Personen mit Vorerkrankungen. Die mediane Inkubationszeit beträgt in etwa 4-6 Tage, je nach Virusvariante und die Krankheit dauert etwa 8-10 Tage an, falls keine Therapie durchgeführt wird. "),
+                          h5("Übertragungswege:"),
+                          p("Der Hauptübertragungsweg des COVID-19 Erregers ist die Tröpfcheninfektion. Dabei werden kleine Partikel in der Luft, welche die Viren enthalten, eingeatmet und gelangen so in den Körper. Die Übertragungswahrscheinlichkeit von einer Infozierten Person zu einer Nichtinfizierten steigt dabei, wenn sich beide Personen in einem geschlossenen Raum aufhalten, besonders wenn dieser schlecht belüftet ist. Es empfiehlt sich demnach bei längerem Aufenthalt in einem Raum regelmäßig zu lüften. Auch das Tragen von Masken wie einem Mund-Nasen-Schutz können das Risiko einer Infektion senken. ")
                         ))
                )),
 
