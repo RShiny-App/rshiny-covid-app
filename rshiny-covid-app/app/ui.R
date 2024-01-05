@@ -16,8 +16,8 @@ fluidPage(
 
   # Application title
   titlePanel(title=tags$div(
-    #img(src="www/logo.svg", 
-    img(src="https://www.thu.de/_catalogs/masterpage/HSUlm/images/logo.svg", 
+    # img(src="../www/logo.svg", 
+    #img(src="https://www.thu.de/_catalogs/masterpage/HSUlm/images/logo.svg", 
     alt="thu_logo", 
     height=60,
     align="right"), "Covid App")),

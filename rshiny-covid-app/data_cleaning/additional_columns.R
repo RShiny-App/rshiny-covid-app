@@ -25,6 +25,7 @@ View(df)
 
 
 
-
+# export csv
+write.csv(df, "../resources/data_cleaned.csv", row.names = FALSE)
 
 

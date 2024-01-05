@@ -8,7 +8,7 @@ getwd()
 # Set script_dir as current working directory
 setwd(script_dir)
 
-df <- readr::read_csv("resources/data.csv")
+df <- readr::read_csv("../resources/data.csv")
 
 unique(df$TargetGroup)
 
