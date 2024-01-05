@@ -10,7 +10,7 @@ new_df <- df %>%
   select(Year, Week, Region, Vaccine, DosesThisWeek) %>%
   distinct() %>%
   group_by(Year, Week, Region) %>%
-  summarise(TotalDosesThisWeek = sum(DosesThisWeek, na.rm = TRUE)) %>%
+  summarise(WeeklyDosesPerRegion_Total = sum(DosesThisWeek, na.rm = TRUE)) %>%
   ungroup()
 
 
@@ -18,7 +18,7 @@ new_df <- df %>%
 df <- merge(df, new_df, by = c("Year","Week", "Region"), all.x = TRUE)
 
 # Calculate PercentageOfTotalDosesInWeek
-df$PercentageOfTotalDosesInWeek <- (df$DosesThisWeek / df$TotalDosesThisWeek) * 100
+df$PercentageOfTotalDosesInWeek <- round((df$DosesThisWeek / df$WeeklyDosesPerRegion_Total) * 100, 2)
 
 # Display the updated dataframe
 View(df)
