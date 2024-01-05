@@ -8,9 +8,12 @@
 #
 
 library(shiny)
+# plotly for plotlyOutput()
+library(plotly)
 
-# set working directory
-setwd("D:/Code/rstudio_workbench/rshiny-covid-app/rshiny-covid-app/")
+# Get the directory path of the currently running script
+script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+getwd()
 
 # countries in data set wit additional "All" for all countries
 countries <- c("All", "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "EL", 
@@ -21,7 +24,7 @@ fluidPage(
 
   # Application title
   titlePanel(title=tags$div(
-    #img(src="www/logo.svg", 
+    #img(src="rshiny-covid-app/www/logo.svg", 
     img(src="https://www.thu.de/_catalogs/masterpage/HSUlm/images/logo.svg", 
     alt="thu_logo", 
     height=60,
@@ -78,6 +81,7 @@ fluidPage(
                # per unit of time
                # per country
                # in dropdown menus
+               tags$br(),
                sidebarPanel(
                  # left side of panel
                  # Drop down choices for countries 

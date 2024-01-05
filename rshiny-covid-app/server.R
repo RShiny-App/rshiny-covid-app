@@ -12,6 +12,10 @@ library(readr)
 library(tibble)
 library(plotly)
 
+# Get the directory path of the currently running script
+script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+print(getwd())
+
 df_tibble <- as_tibble(read_csv("resources/data.csv"))
 
 # Define server logic
@@ -38,43 +42,54 @@ function(input, output, session) {
   output$target_group_description_table <- renderDataTable({
     target_group_descriptions()
   },
-  # remove "show enties" and search function of table
+  # remove "show entries" and search function of table
   options = list(dom = '', footer = FALSE))
   
   
   # create pie chart of target group
   output$target_group_pie <- renderPlotly({
-
-  
-    # Verify that a country is selected
-    if (input$selectedCountry != "All") {
-      # if a country is selected, filter by the selected country
-      sum_first_dose <- df_tibble %>%
-        # filter by selected country
-        dplyr::filter(ReportingCountry == input$selectedCountry) %>%
-        group_by(TargetGroup) %>%
-        summarise(Sum_FirstDose = sum(FirstDose, na.rm = TRUE)) %>%
-        arrange(desc(Sum_FirstDose))
-    } else {
-      # if no country is selected, do not filter by country
-      sum_first_dose <- df_tibble %>%
-        group_by(TargetGroup) %>%
-        summarise(Sum_FirstDose = sum(FirstDose, na.rm = TRUE)) %>%
-        arrange(desc(Sum_FirstDose))
-    }
     
-    # create plotly pie chart
-    plot_ly(sum_first_dose, 
-            labels = ~TargetGroup, 
-            values = ~Sum_FirstDose, 
-            type = 'pie',
-            # hover info showing label and value of target group
-            hoverinfo = 'label+value') %>%
-      layout(
-        title = 'Verteilung der FirstDose nach Altersgruppen',
-        xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-        yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
+    
+    
+  # Verify that a country is selected
+  if (input$selectedCountry != "All") {
+    # if a country is selected, filter by the selected country
+    sum_first_dose <- df_tibble %>%
+      # filter by selected country
+      dplyr::filter(ReportingCountry == input$selectedCountry) %>%
+      group_by(TargetGroup) %>%
+      summarise(Sum_FirstDose = sum(FirstDose, na.rm = TRUE)) %>%
+      arrange(desc(Sum_FirstDose))
+  } else {
+    # if no country is selected, do not filter by country
+    sum_first_dose <- df_tibble %>%
+      group_by(TargetGroup) %>%
+      summarise(Sum_FirstDose = sum(FirstDose, na.rm = TRUE)) %>%
+      arrange(desc(Sum_FirstDose))
+  }
+    
+  # create plotly pie chart
+  plot_ly(
+    sum_first_dose,
+    labels = ~ TargetGroup,
+    values = ~ Sum_FirstDose,
+    type = 'pie',
+    # hover info showing label and value of target group
+    hoverinfo = 'label+value'
+  ) %>%
+    layout(
+      title = 'Verteilung der FirstDose nach Altersgruppen',
+      xaxis = list(
+        showgrid = FALSE,
+        zeroline = FALSE,
+        showticklabels = FALSE
+      ),
+      yaxis = list(
+        showgrid = FALSE,
+        zeroline = FALSE,
+        showticklabels = FALSE
       )
-
+    )
+    
   })
 }
