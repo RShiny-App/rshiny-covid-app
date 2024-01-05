@@ -23,29 +23,11 @@ function(input, output, session) {
   
   
   ####################### tab target groups ####################################
-  # Create a reactive expression for target group descriptions
-  target_group_descriptions <- reactive({
-    data.frame(
-      TargetGroup = c(
-        "ALL", "HCW", "LTCF", "AgeUnk", "1_Age<60", "1_Age60+"
-      ),
-      Description = c(
-        "Overall adults (18+)",
-        "Healthcare workers",
-        "Residents in long term care facilities",
-        "Unknown age",
-        "Adults below 60 years of age and above 17", "Adults 60 years and over"
-      )
-    )
-  })
-  # Render target group descriptions as a table
-  output$target_group_description_table <- renderDataTable({
-    target_group_descriptions()
-  },
-  # remove "show entries" and search function of table
-  options = list(dom = '', footer = FALSE))
-  
-  
+  # target groups excluding "Age<18", "ALL", "LTCF", "HCW", "1_Age<60", "1_Age60+"
+  selected_target_groups <- c("Age0_4", "Age5_9", "Age10_14", "Age15_17", 
+                              "Age18_24", "Age25_49", "Age50_59", "Age60_69", 
+                              "Age70_79", "Age80+", "AgeUnk")
+
   # create pie chart of target group
   output$target_group_pie <- renderPlotly({
     
@@ -55,14 +37,17 @@ function(input, output, session) {
   if (input$selectedCountry != "All") {
     # if a country is selected, filter by the selected country
     sum_first_dose <- df_tibble %>%
-      # filter by selected country
-      dplyr::filter(ReportingCountry == input$selectedCountry) %>%
+      # filter by selected country and selected target groups
+      dplyr::filter(ReportingCountry == input$selectedCountry & 
+                      TargetGroup %in% selected_target_groups) %>%
       group_by(TargetGroup) %>%
       summarise(Sum_FirstDose = sum(FirstDose, na.rm = TRUE)) %>%
       arrange(desc(Sum_FirstDose))
   } else {
     # if no country is selected, do not filter by country
     sum_first_dose <- df_tibble %>%
+      # filter selected target groups
+      dplyr::filter(TargetGroup %in% selected_target_groups) %>%
       group_by(TargetGroup) %>%
       summarise(Sum_FirstDose = sum(FirstDose, na.rm = TRUE)) %>%
       arrange(desc(Sum_FirstDose))

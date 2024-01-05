@@ -63,4 +63,14 @@ fig <- fig %>% layout(
 
 fig
 
+unique(df_tibble$TargetGroup)
+
+bla <- df_tibble %>%
+        filter(TargetGroup == "Age<18" |
+                 TargetGroup == "Age0_4" |
+                 TargetGroup == "Age5_9" |
+                 TargetGroup == "Age10_14" |
+                 TargetGroup == "Age15_17") %>%
+        filter(YearWeekISO == "2021-W01")
+
 

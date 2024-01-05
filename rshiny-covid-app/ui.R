@@ -87,11 +87,7 @@ fluidPage(
                  # Drop down choices for countries 
                  selectInput("selectedCountry", "Wähle ein Land aus:",
                              choices = countries,
-                             selected = "All"),
-                 tags$br(),
-                 tags$h4("Beschreibung für Zielgruppenvariablen"),
-                 # Table of target group descriptions
-                 dataTableOutput("target_group_description_table")
+                             selected = "All")
                  ),
                mainPanel(
                  # pie chart plot
