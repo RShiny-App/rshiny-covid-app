@@ -16,7 +16,7 @@ library(plotly)
 script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 print(getwd())
 
-df_tibble <- as_tibble(read_csv("resources/data.csv"))
+df_tibble <- as_tibble(read_csv("../resources/data_cleaned.csv"))
 
 # Define server logic
 function(input, output, session) {
@@ -30,50 +30,47 @@ function(input, output, session) {
 
   # create pie chart of target group
   output$target_group_pie <- renderPlotly({
+    # Verify that a country is selected
+    if (input$selectedCountry != "All") {
+      # if a country is selected, filter by the selected country
+      sum_total_doses <- df_tibble %>%
+        # filter by selected country and selected target groups
+        dplyr::filter(ReportingCountry == input$selectedCountry & 
+                        TargetGroup %in% selected_target_groups) %>%
+        group_by(TargetGroup) %>%
+        summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE)) %>%
+        arrange(desc(Sum_TotalDoses))
+    } else {
+      # if no country is selected, do not filter by country
+      sum_total_doses <- df_tibble %>%
+        # filter selected target groups
+        dplyr::filter(TargetGroup %in% selected_target_groups) %>%
+        group_by(TargetGroup) %>%
+        summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE)) %>%
+        arrange(desc(Sum_TotalDoses))
+    }
     
-    
-    
-  # Verify that a country is selected
-  if (input$selectedCountry != "All") {
-    # if a country is selected, filter by the selected country
-    sum_first_dose <- df_tibble %>%
-      # filter by selected country and selected target groups
-      dplyr::filter(ReportingCountry == input$selectedCountry & 
-                      TargetGroup %in% selected_target_groups) %>%
-      group_by(TargetGroup) %>%
-      summarise(Sum_FirstDose = sum(FirstDose, na.rm = TRUE)) %>%
-      arrange(desc(Sum_FirstDose))
-  } else {
-    # if no country is selected, do not filter by country
-    sum_first_dose <- df_tibble %>%
-      # filter selected target groups
-      dplyr::filter(TargetGroup %in% selected_target_groups) %>%
-      group_by(TargetGroup) %>%
-      summarise(Sum_FirstDose = sum(FirstDose, na.rm = TRUE)) %>%
-      arrange(desc(Sum_FirstDose))
-  }
-    
-  # create plotly pie chart
-  plot_ly(
-    sum_first_dose,
-    labels = ~ TargetGroup,
-    values = ~ Sum_FirstDose,
-    type = 'pie',
-    # hover info showing label and value of target group
-    hoverinfo = 'label+value'
-  ) %>%
-    layout(
-      title = 'Verteilung der FirstDose nach Altersgruppen',
-      xaxis = list(
-        showgrid = FALSE,
-        zeroline = FALSE,
-        showticklabels = FALSE
-      ),
-      yaxis = list(
-        showgrid = FALSE,
-        zeroline = FALSE,
-        showticklabels = FALSE
+    # create plotly pie chart
+    plot_ly(
+      sum_total_doses,
+      labels = ~ TargetGroup,
+      values = ~ Sum_TotalDoses,
+      type = 'pie',
+      # hover info showing label and value of target group
+      hoverinfo = 'label+value'
+    ) %>%
+      layout(
+        title = 'Verteilung der Dosierungen nach Altersgruppen',
+        xaxis = list(
+          showgrid = FALSE,
+          zeroline = FALSE,
+          showticklabels = FALSE
+        ),
+        yaxis = list(
+          showgrid = FALSE,
+          zeroline = FALSE,
+          showticklabels = FALSE
+        )
       )
-    )
   })
 }
