@@ -12,7 +12,6 @@ library(readr)
 library(tibble)
 library(plotly)
 
-
 df_tibble <- as_tibble(read_csv("resources/data.csv"))
 
 # Define server logic
@@ -24,22 +23,24 @@ function(input, output, session) {
   target_group_descriptions <- reactive({
     data.frame(
       TargetGroup = c(
-        "ALL", "Age<18", "HCW", "LTCF", "Age0_4", "Age5_9", "Age10_14",
-        "Age15_17", "Age18_24", "Age25_49", "Age50_59", "Age60_69",
-        "Age70_79", "Age80+", "AgeUnk", "1_Age<60", "1_Age60+"
+        "ALL", "HCW", "LTCF", "AgeUnk", "1_Age<60", "1_Age60+"
       ),
       Description = c(
         "Overall adults (18+)",
-        "Overall adolescents and children (0-17 years old)",
         "Healthcare workers",
         "Residents in long term care facilities",
-        "0-4 years old", "5-9 years old", "10-14 years old", "15-17 years old",
-        "18-24 years old", "25-49 years old", "50-59 years old", "60-69 years old",
-        "70-79 years old", "80 years and over", "Unknown age",
+        "Unknown age",
         "Adults below 60 years of age and above 17", "Adults 60 years and over"
       )
     )
   })
+  # Render target group descriptions as a table
+  output$target_group_description_table <- renderDataTable({
+    target_group_descriptions()
+  },
+  # remove "show enties" and search function of table
+  options = list(dom = ''))
+  
   
   # create pie chart of target group
   output$target_group_pie <- renderPlotly({
@@ -75,10 +76,5 @@ function(input, output, session) {
         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
       )
 
-  })
-  
-  # Render target group descriptions as a table
-  output$target_group_description_table <- renderDataTable({
-    target_group_descriptions()
   })
 }

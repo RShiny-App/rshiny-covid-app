@@ -12,6 +12,11 @@ library(shiny)
 # set working directory
 setwd("D:/Code/rstudio_workbench/rshiny-covid-app/rshiny-covid-app/")
 
+# countries in data set wit additional "All" for all countries
+countries <- c("All", "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "EL", 
+               "ES", "FI", "FR", "HR", "HU", "IE", "IS", "IT", "LI", "LT", "LU", 
+               "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK")
+
 fluidPage(
 
   # Application title
@@ -75,17 +80,20 @@ fluidPage(
                # in dropdown menus
                sidebarPanel(
                  # left side of panel
-                 # Dropdown-Menü for countries and adding "All" for all countries
+                 # Dropdown choices for countries 
                  selectInput("selectedCountry", "Wähle ein Land aus:",
-                             choices = c("All", unique(df_tibble$ReportingCountry)),
-                             selected = "All")),
+                             choices = countries,
+                             selected = "All"),
+                 tags$br(),
+                 tags$h4("Beschreibung für Zielgruppenvariablen"),
+                 # Table of target group descriptions
+                 dataTableOutput("target_group_description_table")
+                 ),
                mainPanel(
                  # pie chart plot
                  # reference: https://stackoverflow.com/questions/41255810/r-shinyapp-not-showing-plot-ly-in-browser-but-show-only-graph-in-viewer-pane
-                 plotlyOutput("target_group_pie"),
+                 plotlyOutput("target_group_pie")
                  
-                 # Table of target group descriptions
-                 dataTableOutput("target_group_description_table")
                )
       ),
 
