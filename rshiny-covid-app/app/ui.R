@@ -92,7 +92,10 @@ fluidPage(
                mainPanel(
                  # pie chart plot
                  # reference: https://stackoverflow.com/questions/41255810/r-shinyapp-not-showing-plot-ly-in-browser-but-show-only-graph-in-viewer-pane
-                 plotlyOutput("target_group_pie")
+                 plotlyOutput("target_group_pie"),
+                 
+                 # line graph 
+                 plotlyOutput("line_chart_total_doses")
                  
                )
       ),

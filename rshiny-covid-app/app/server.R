@@ -22,7 +22,13 @@ df_tibble <- as_tibble(read_csv("../resources/data_cleaned.csv"))
 function(input, output, session) {
   
   
-  ####################### tab target groups ####################################
+  ##############################################################################
+  #                                                                            #
+  #                       tab target groups                                    #
+  #                                                                            #
+  ##############################################################################
+  
+  ######################### pie chart ##########################################
   # target groups excluding "Age<18", "ALL", "LTCF", "HCW", "1_Age<60", "1_Age60+"
   selected_target_groups <- c("Age0_4", "Age5_9", "Age10_14", "Age15_17", 
                               "Age18_24", "Age25_49", "Age50_59", "Age60_69", 
@@ -73,4 +79,32 @@ function(input, output, session) {
         )
       )
   })
+  
+  ######################### line graph #########################################
+  # render line chart for total doses over time
+  output$line_chart_total_doses <- renderPlotly({
+    
+    # Filter data based on selected country
+    if (input$selectedCountry == "All") {
+      # filter data by week and total dosages per week
+      df_sum_doses <- df_tibble %>%
+        group_by(YearWeekISO) %>%
+        summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE))
+    } else {
+      # filter data by week and total dosages per week for the selected country
+      df_sum_doses <- df_tibble %>%
+        dplyr::filter(ReportingCountry == input$selectedCountry) %>%
+        group_by(YearWeekISO) %>%
+        summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE))
+    }
+    
+    # Plot the line chart
+    plot_ly(df_sum_doses, x = ~YearWeekISO, y = ~Sum_TotalDoses, type = 'scatter', mode = 'lines+markers') %>%
+      layout(title = 'Kumulierte Dosierungen über die Zeit',
+             xaxis = list(title = 'Woche'),
+             yaxis = list(title = 'Summe der Dosierungen'))
+  })
+  
+  
+  
 }
