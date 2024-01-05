@@ -80,7 +80,7 @@ fluidPage(
                # in dropdown menus
                sidebarPanel(
                  # left side of panel
-                 # Dropdown choices for countries 
+                 # Drop down choices for countries 
                  selectInput("selectedCountry", "Wähle ein Land aus:",
                              choices = countries,
                              selected = "All"),

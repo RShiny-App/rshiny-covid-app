@@ -39,7 +39,7 @@ function(input, output, session) {
     target_group_descriptions()
   },
   # remove "show enties" and search function of table
-  options = list(dom = ''))
+  options = list(dom = '', footer = FALSE))
   
   
   # create pie chart of target group
