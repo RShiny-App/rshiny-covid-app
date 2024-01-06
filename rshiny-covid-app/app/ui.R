@@ -21,14 +21,14 @@ countries <- c("All", "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "EL",
                "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK")
 
 fluidPage(
+    # Application title
+    titlePanel(title=tags$div(
+      # img(src="../www/logo.svg", 
+      img(src="https://www.thu.de/_catalogs/masterpage/HSUlm/images/logo.svg", 
+          alt="thu_logo", 
+          height=60,
+          align="right"), "Covid App")),
 
-  # Application title
-  titlePanel(title=tags$div(
-    # img(src="../www/logo.svg", 
-    img(src="https://www.thu.de/_catalogs/masterpage/HSUlm/images/logo.svg", 
-    alt="thu_logo", 
-    height=60,
-    align="right"), "Covid App")),
   
     # tabset panel with different contents
     tabsetPanel(
