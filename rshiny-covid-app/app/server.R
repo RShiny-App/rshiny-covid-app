@@ -107,7 +107,7 @@ function(input, output, session) {
                                  iso_country_mapping[input$selectedCountry], 
                                  'und', 
                                  # get german description for selected target group
-                                 age_mapping[input$selectedTargetGroup])und 
+                                 age_mapping[input$selectedTargetGroup])
     }
     
     # Plot the line chart
