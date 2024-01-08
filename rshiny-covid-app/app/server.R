@@ -19,37 +19,42 @@ print(getwd())
 
 df_tibble <- as_tibble(read_csv("../resources/data_cleaned.csv"))
 
+##################### mappings #################################################
+# target groups excluding "Age<18", "ALL", "LTCF", "HCW", "1_Age<60", "1_Age60+"
+selected_target_groups <- c("Age0_4", "Age5_9", "Age10_14", "Age15_17", 
+                            "Age18_24", "Age25_49", "Age50_59", "Age60_69", 
+                            "Age70_79", "Age80+", "AgeUnk")
+age_names_german <- c("Alter 0 bis 4", "Alter 5 bis 9", "Alter 10 bis 14", 
+                      "Alter 15 bis 17", "Alter 18 bis 24", "Alter 25 bis 49", 
+                      "Alter 50 bis 59", "Alter 60 bis 69", "Alter 70 bis 79", 
+                      "Alter 80+", "Altersgruppe unbekannt")
+# mapping of selected target groups and age names
+age_mapping <- setNames(age_names_german, selected_target_groups)
+
+
+# mapping of iso codes and country names
+iso_codes <- c("AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "EL", "ES", 
+               "FI", "FR", "HR", "HU", "IE", "IS", "IT", "LI", "LT", "LU", 
+               "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK")
+country_names_german <- c("Oesterreich", "Belgien", "Bulgarien", "Zypern", 
+                          "Tschechien", "Deutschland", "Dänemark", "Estland", 
+                          "Griechenland", "Spanien", "Finnland", "Frankreich", 
+                          "Kroatien", "Ungarn", "Irland", "Island", "Italien", 
+                          "Liechtenstein", "Litauen", "Luxemburg", "Lettland", 
+                          "Malta", "Niederlande", "Norwegen", "Polen", 
+                          "Portugal", "Rumänien", "Schweden", "Slowenien", 
+                          "Slowakei")
+# mapping iso_codes and country_names_german
+iso_country_mapping <- setNames(country_names_german, iso_codes)
+
 # Define server logic
 function(input, output, session) {
-  
   
   ##############################################################################
   #                                                                            #
   #                       tab target groups                                    #
   #                                                                            #
   ##############################################################################
-  
-  # target groups excluding "Age<18", "ALL", "LTCF", "HCW", "1_Age<60", "1_Age60+"
-  selected_target_groups <- c("Age0_4", "Age5_9", "Age10_14", "Age15_17", 
-                              "Age18_24", "Age25_49", "Age50_59", "Age60_69", 
-                              "Age70_79", "Age80+", "AgeUnk")
-  
-  # mapping of iso codes and country names
-  iso_codes <- c("AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "EL", "ES", 
-                 "FI", "FR", "HR", "HU", "IE", "IS", "IT", "LI", "LT", "LU", 
-                 "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK")
-  country_names_german <- c("Oesterreich", "Belgien", "Bulgarien", "Zypern", 
-                            "Tschechien", "Deutschland", "Dänemark", "Estland", 
-                            "Griechenland", "Spanien", "Finnland", "Frankreich", 
-                            "Kroatien", "Ungarn", "Irland", "Island", "Italien", 
-                            "Liechtenstein", "Litauen", "Luxemburg", "Lettland", 
-                            "Malta", "Niederlande", "Norwegen", "Polen", 
-                            "Portugal", "Rumänien", "Schweden", "Slowenien", 
-                            "Slowakei")
-  
-  # mapping iso_codes and country_names_german
-  iso_country_mapping <- setNames(country_names_german, iso_codes)
-  
   
   ######################### line graph #########################################
   # define variable for line graph header
@@ -75,8 +80,9 @@ function(input, output, session) {
         summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE))
       
       # adjust line graph header
-      line_graph_header <- paste('Dosierungen über Zeit in allen Ländern und 
-                                Zielgruppe', input$selectedTargetGroup)
+      line_graph_header <- paste('Dosierungen über Zeit in allen Ländern und', 
+                                # get german description for selected target group
+                                age_mapping[input$selectedTargetGroup])
     } else if(input$selectedCountry != "All" & input$selectedTargetGroup == "All"){
       df_sum_doses <- df_tibble %>%
         dplyr::filter(ReportingCountry == input$selectedCountry) %>%
@@ -99,7 +105,9 @@ function(input, output, session) {
       line_graph_header <- paste('Dosierungen über Zeit in', 
                                  # get german country name from iso mapping
                                  iso_country_mapping[input$selectedCountry], 
-                                 'und Zielgruppe', input$selectedTargetGroup)
+                                 'und', 
+                                 # get german description for selected target group
+                                 age_mapping[input$selectedTargetGroup])und 
     }
     
     # Plot the line chart
