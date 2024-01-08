@@ -15,6 +15,7 @@ library(plotly)
 # Get the directory path of the currently running script
 script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 print(getwd())
+#setwd(script_dir)
 
 df_tibble <- as_tibble(read_csv("../resources/data_cleaned.csv"))
 

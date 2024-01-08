@@ -13,8 +13,9 @@ library(plotly)
 
 # Get the directory path of the currently running script
 script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
-getwd()
+
 setwd(script_dir)
+
 # countries in data set wit additional "All" for all countries
 countries <- c("All", "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "EL", 
                "ES", "FI", "FR", "HR", "HU", "IE", "IS", "IT", "LI", "LT", "LU", 
@@ -24,7 +25,6 @@ fluidPage(
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css")
   ),
-
   # Application title
   titlePanel(title=tags$div(
     # img(src="../www/logo.svg", 
