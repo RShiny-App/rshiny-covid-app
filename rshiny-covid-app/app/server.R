@@ -67,17 +67,7 @@ function(input, output, session) {
       hoverinfo = 'label+value'
     ) %>%
       layout(
-        title = 'Verteilung der Dosierungen nach Altersgruppen',
-        xaxis = list(
-          showgrid = FALSE,
-          zeroline = FALSE,
-          showticklabels = FALSE
-        ),
-        yaxis = list(
-          showgrid = FALSE,
-          zeroline = FALSE,
-          showticklabels = FALSE
-        )
+        title = 'Verteilung der Dosierungen nach Altersgruppen'
       )
   })
   

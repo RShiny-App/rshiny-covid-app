@@ -14,7 +14,7 @@ library(plotly)
 # Get the directory path of the currently running script
 script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 
-setwd(script_dir)
+#setwd(script_dir)
 
 # countries in data set wit additional "All" for all countries
 countries <- c("All", "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "EL", 
