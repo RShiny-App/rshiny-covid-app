@@ -49,6 +49,26 @@ iso_country_mapping <- setNames(country_names_german, iso_codes)
 
 # Define server logic
 function(input, output, session) {
+  ##############################################################################
+  #                                                                            #
+  #                       tab countries                                        #
+  #                                                                            #
+  ##############################################################################
+  
+  ########################### table ############################################
+  # render data table total doses per country
+  # reference https://shiny.posit.co/r/reference/shiny/latest/rendertable
+  output$top_countries_table <- renderDataTable(
+    # default value for show entries
+    options = list(pageLength = 5),
+    {
+    # group by countries and sum up all doses, arrange descending
+    total_doses_by_country <- df_tibble %>%
+      group_by(ReportingCountry) %>%
+      summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE)) %>%
+      arrange(desc(Sum_TotalDoses))
+  })
+  
   
   ##############################################################################
   #                                                                            #

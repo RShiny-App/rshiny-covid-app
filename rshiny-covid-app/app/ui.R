@@ -67,14 +67,16 @@ fluidPage(
 
       tabPanel("Länder",
                # bar chart: most vaccinations per country in a side bar panel
-               # table: In which countries were the most vaccinated
-               fluidRow(
-                 column(12,
-                        tags$div(
-                          h3("Platzhalter Überschrift"),
-                          p("Hier steht bald ein Graph.")
-                        ))
-               )),
+               tags$br(),
+               sidebarPanel(
+                 
+               ),
+               
+               mainPanel(
+                 # table: In which countries were the most vaccinated
+                 dataTableOutput("top_countries_table")
+               )
+               ),
 
       tabPanel("Ablehnungsrate",
                # line graph: refusal rate over time
