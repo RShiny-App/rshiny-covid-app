@@ -27,6 +27,9 @@ target_groups <- c("All", "Age0_4", "Age5_9", "Age10_14", "Age15_17",
                    "Age70_79", "Age80+", "AgeUnk")
 
 fluidPage(
+  # bootstrap themes
+  # reference https://mastering-shiny.org/action-layout.html
+  # theme = bslib::bs_theme(bootswatch = "united"),
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css")
   ),
@@ -66,21 +69,29 @@ fluidPage(
                )),
 
       tabPanel("Länder",
-               # bar chart: most vaccinations per country in a side bar panel
                tags$br(),
-               sidebarPanel(
-                # drop down choices for target group
-                 selectInput("selectedTargetGroup_countries", "Wähle eine Zielgruppe aus:",
-                             choices = target_groups,
-                             selected = "All")
+               # drop down choices for target group
+               selectInput("selectedTargetGroup_countries", "Wähle eine Zielgruppe aus:",
+                           choices = target_groups,
+                           selected = "All"),
+               fluidRow(
+                 # insert space on left and right side
+                 style = "margin-left: 15px; margin-right: 15px;",
+                 tags$h4("Gesamtdosen pro Land"),
+                 # bar chart most doses per country
+                 plotOutput("bar_chart_most_vaccinations")
                ),
                
+               # dividing line
+               tags$hr(),
+               
                mainPanel(
-                 #tags$h4("Länder mit den meisten Dosierungen"),
                  tags$br(),
-                 # table: In which countries were the most vaccinated
-                 dataTableOutput("top_countries_table")
-               )
+                  tags$h4("Länder mit den meisten Dosen"),
+                  tags$br(),
+                  # table: In which countries were the most vaccinated
+                  dataTableOutput("top_countries_table")
+                )
                ),
 
       tabPanel("Ablehnungsrate",
@@ -116,6 +127,7 @@ fluidPage(
                  plotlyOutput("line_chart_total_doses"),
                  tags$br()
                ),
+               
                sidebarPanel(
                  # set sidebar panel of pie chart invisible
                  style = "display: none;",

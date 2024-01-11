@@ -55,12 +55,40 @@ function(input, output, session) {
   #                                                                            #
   ##############################################################################
   
+  ########################### bar chart ########################################
+  output$bar_chart_most_vaccinations <- renderPlot({
+    
+    # Filter data based on selected target group
+    if (input$selectedTargetGroup_countries == "All") {
+      # if no specific target group is selected, consider all target groups
+      total_doses_by_country <- df_tibble %>%
+        group_by(ReportingCountry) %>%
+        summarise(TotalDoses = sum(DosesThisWeek, na.rm = TRUE)) %>%
+        arrange(desc(TotalDoses))
+    } else {
+      # if a specific target group is selected, filter by that target group
+      total_doses_by_country <- df_tibble %>%
+        filter(TargetGroup == input$selectedTargetGroup_countries) %>%
+        group_by(ReportingCountry) %>%
+        summarise(TotalDoses = sum(DosesThisWeek, na.rm = TRUE)) %>%
+        arrange(desc(TotalDoses))
+    }
+    
+    ggplot(total_doses_by_country,
+           aes(x = reorder(iso_country_mapping[ReportingCountry], -TotalDoses), y = TotalDoses)) +
+      geom_bar(stat = "identity", fill = "skyblue") +
+      labs(x = "Land", y = "Gesamtdosen") +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  })
+  
+  
   ########################### table ############################################
   # render data table total doses per country
   # reference https://shiny.posit.co/r/reference/shiny/latest/rendertable
   output$top_countries_table <- renderDataTable(
     # default value for show entries
-    options = list(pageLength = 5),
+    options = list(pageLength = 10),
     {
       if(input$selectedTargetGroup_countries == "All"){
         # if no specific target group is selected
