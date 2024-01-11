@@ -62,12 +62,26 @@ function(input, output, session) {
     # default value for show entries
     options = list(pageLength = 5),
     {
-    # group by countries and sum up all doses, arrange descending
-    total_doses_by_country <- df_tibble %>%
-      group_by(ReportingCountry) %>%
-      summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE)) %>%
-      arrange(desc(Sum_TotalDoses))
-  })
+      if(input$selectedTargetGroup_countries == "All"){
+        # if no specific target group is selected
+        # group by countries and sum up all doses, arrange descending
+        df_tibble %>%
+          # map countries to display full country name
+          group_by(iso_country_mapping[ReportingCountry]) %>%
+          summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE)) %>%
+          arrange(desc(Sum_TotalDoses))
+      }else{
+        # if a specific target group is selected
+        # group by countries and sum up all doses, arrange descending
+        df_tibble %>%
+          # filter by selected Target Group
+          dplyr::filter(TargetGroup == input$selectedTargetGroup_countries) %>%
+          # map countries to display full country name
+          group_by(iso_country_mapping[ReportingCountry]) %>%
+          summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE)) %>%
+          arrange(desc(Sum_TotalDoses))
+      }
+    })
   
   
   ##############################################################################
@@ -84,7 +98,7 @@ function(input, output, session) {
   output$line_chart_total_doses <- renderPlotly({
     
     # Filter data based on selected country and selected target group
-    if (input$selectedCountry == "All" & input$selectedTargetGroup == "All") {
+    if (input$selectedCountry == "All" & input$selectedTargetGroup_targetgroups == "All") {
       # filter data by week and total dosages per week
       df_sum_doses <- df_tibble %>%
         group_by(YearWeekISO) %>%
@@ -92,18 +106,18 @@ function(input, output, session) {
       
       # adjust line graph header
       line_graph_header <- 'Dosierungen über Zeit in allen Ländern und allen Altersgruppen'
-    } else if(input$selectedCountry == "All" & input$selectedTargetGroup != "All"){
+    } else if(input$selectedCountry == "All" & input$selectedTargetGroup_targetgroups != "All"){
       # filter data by week and total dosages per week for the selected country
       df_sum_doses <- df_tibble %>%
-        dplyr::filter(TargetGroup == input$selectedTargetGroup) %>%
+        dplyr::filter(TargetGroup == input$selectedTargetGroup_targetgroups) %>%
         group_by(YearWeekISO) %>%
         summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE))
       
       # adjust line graph header
       line_graph_header <- paste('Dosierungen über Zeit in allen Ländern und', 
                                 # get german description for selected target group
-                                age_mapping[input$selectedTargetGroup])
-    } else if(input$selectedCountry != "All" & input$selectedTargetGroup == "All"){
+                                age_mapping[input$selectedTargetGroup_targetgroups])
+    } else if(input$selectedCountry != "All" & input$selectedTargetGroup_targetgroups == "All"){
       df_sum_doses <- df_tibble %>%
         dplyr::filter(ReportingCountry == input$selectedCountry) %>%
         group_by(YearWeekISO) %>%
@@ -117,7 +131,7 @@ function(input, output, session) {
     } else{
       df_sum_doses <- df_tibble %>%
         dplyr::filter(ReportingCountry == input$selectedCountry &
-                        TargetGroup == input$selectedTargetGroup) %>%
+                        TargetGroup == input$selectedTargetGroup_targetgroups) %>%
         group_by(YearWeekISO) %>%
         summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE))
       
@@ -127,7 +141,7 @@ function(input, output, session) {
                                  iso_country_mapping[input$selectedCountry], 
                                  'und', 
                                  # get german description for selected target group
-                                 age_mapping[input$selectedTargetGroup])
+                                 age_mapping[input$selectedTargetGroup_targetgroups])
     }
     
     # Plot the line chart

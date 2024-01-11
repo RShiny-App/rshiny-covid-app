@@ -69,10 +69,15 @@ fluidPage(
                # bar chart: most vaccinations per country in a side bar panel
                tags$br(),
                sidebarPanel(
-                 
+                # drop down choices for target group
+                 selectInput("selectedTargetGroup_countries", "Wähle eine Zielgruppe aus:",
+                             choices = target_groups,
+                             selected = "All")
                ),
                
                mainPanel(
+                 tags$h4("Länder mit den meisten Dosierungen"),
+                 tags$br(),
                  # table: In which countries were the most vaccinated
                  dataTableOutput("top_countries_table")
                )
@@ -102,7 +107,7 @@ fluidPage(
                              choices = countries,
                              selected = "All"),
                  # drop down choices for target group
-                 selectInput("selectedTargetGroup", "Wähle eine Zielgruppe aus:",
+                 selectInput("selectedTargetGroup_targetgroups", "Wähle eine Zielgruppe aus:",
                              choices = target_groups,
                              selected = "All")
                ),
