@@ -76,7 +76,7 @@ fluidPage(
                ),
                
                mainPanel(
-                 tags$h4("Länder mit den meisten Dosierungen"),
+                 #tags$h4("Länder mit den meisten Dosierungen"),
                  tags$br(),
                  # table: In which countries were the most vaccinated
                  dataTableOutput("top_countries_table")

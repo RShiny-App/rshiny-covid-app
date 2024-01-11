@@ -65,7 +65,7 @@ function(input, output, session) {
       if(input$selectedTargetGroup_countries == "All"){
         # if no specific target group is selected
         # group by countries and sum up all doses, arrange descending
-        df_tibble %>%
+        total_doses_by_country <- df_tibble %>%
           # map countries to display full country name
           group_by(iso_country_mapping[ReportingCountry]) %>%
           summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE)) %>%
@@ -73,7 +73,7 @@ function(input, output, session) {
       }else{
         # if a specific target group is selected
         # group by countries and sum up all doses, arrange descending
-        df_tibble %>%
+        total_doses_by_country <- df_tibble %>%
           # filter by selected Target Group
           dplyr::filter(TargetGroup == input$selectedTargetGroup_countries) %>%
           # map countries to display full country name
@@ -81,6 +81,13 @@ function(input, output, session) {
           summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE)) %>%
           arrange(desc(Sum_TotalDoses))
       }
+      
+      # get the column names
+      col_names <- c("Land", "Gesamtdosen")
+      
+      # set the column names
+      colnames(total_doses_by_country) <- col_names
+      return(total_doses_by_country)
     })
   
   
