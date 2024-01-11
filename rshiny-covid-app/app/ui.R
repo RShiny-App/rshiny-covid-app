@@ -169,8 +169,25 @@ fluidPage(
                             Informationen über den Datensatz: ",
                             a(href="https://www.ecdc.europa.eu/en/publications-data/data-covid-19-vaccination-eu-eea", "Hier klicken")),
                           br(),
+
+
                           h4("Entwickler"),
-                          p("Yannik Krantz, Alexander Metzler, Florian Hauptmann")
+                          p("Yannik Krantz",
+                            a(href = "https://github.com/Y4ng0", img(src = "github-mark.png", height = 20, width = 20))
+                          ),
+                          p("Alexander Metzler",
+                            a(href = "https://github.com/alxmtzr", img(src = "github-mark.png", height = 20, width = 20))
+                          ),
+                          p("Florian Hauptmann",
+                             a(href = "https://github.com/Flo3141", img(src = "github-mark.png", height = 20, width = 20))
+                          ),
+
+                          br(),
+
+                          h4("GitHub Project"),
+                          p("R Shiny Covid App",
+                            a(href = "https://github.com/hierstehtbaldderlinkzumprojekt", img(src = "github-mark.png", height = 20, width = 20))
+                          )
                         ))
                ))
     )
