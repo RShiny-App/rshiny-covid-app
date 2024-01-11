@@ -13,18 +13,23 @@ library(plotly)
 
 # Get the directory path of the currently running script
 script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
-getwd()
-setwd(script_dir)
-# countries in data set wit additional "All" for all countries
+
+#setwd(script_dir)
+
+# countries in data set with additional "All" for all countries
 countries <- c("All", "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "EL", 
                "ES", "FI", "FR", "HR", "HU", "IE", "IS", "IT", "LI", "LT", "LU", 
                "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK")
+
+# target groups in data set with additional "All" for all target groups
+target_groups <- c("All", "Age0_4", "Age5_9", "Age10_14", "Age15_17", 
+                   "Age18_24", "Age25_49", "Age50_59", "Age60_69", 
+                   "Age70_79", "Age80+", "AgeUnk")
 
 fluidPage(
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css")
   ),
-
   # Application title
   titlePanel(title=tags$div(
     # img(src="../www/logo.svg", 
@@ -90,18 +95,30 @@ fluidPage(
                # in dropdown menus
                tags$br(),
                sidebarPanel(
-                 # left side of panel
-                 # Drop down choices for countries 
+                 # drop down choices for country
                  selectInput("selectedCountry", "Wähle ein Land aus:",
                              choices = countries,
+                             selected = "All"),
+                 # drop down choices for target group
+                 selectInput("selectedTargetGroup", "Wähle eine Zielgruppe aus:",
+                             choices = target_groups,
                              selected = "All")
-                 ),
+               ),
+               mainPanel(
+                 # line graph 
+                 plotlyOutput("line_chart_total_doses"),
+                 tags$br()
+               ),
+               sidebarPanel(
+                 # set sidebar panel of pie chart invisible
+                 style = "display: none;",
+               ),
                mainPanel(
                  # pie chart plot
                  # reference: https://stackoverflow.com/questions/41255810/r-shinyapp-not-showing-plot-ly-in-browser-but-show-only-graph-in-viewer-pane
                  plotlyOutput("target_group_pie")
-                 
                )
+
       ),
 
       tabPanel("Über uns",
