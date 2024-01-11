@@ -71,7 +71,7 @@ function(input, output, session) {
         summarise(Sum_TotalDoses = sum(DosesThisWeek, na.rm = TRUE))
       
       # adjust line graph header
-      line_graph_header <- 'Dosierungen über Zeit in allen Ländern und allen Zielgruppen'
+      line_graph_header <- 'Dosierungen über Zeit in allen Ländern und allen Altersgruppen'
     } else if(input$selectedCountry == "All" & input$selectedTargetGroup != "All"){
       # filter data by week and total dosages per week for the selected country
       df_sum_doses <- df_tibble %>%
@@ -93,7 +93,7 @@ function(input, output, session) {
       line_graph_header <- paste('Dosierungen über Zeit in', 
                                  # get german country name from iso mapping
                                  iso_country_mapping[input$selectedCountry], 
-                                 'und allen Zielgruppen')
+                                 'und allen Altersgruppen')
     } else{
       df_sum_doses <- df_tibble %>%
         dplyr::filter(ReportingCountry == input$selectedCountry &
