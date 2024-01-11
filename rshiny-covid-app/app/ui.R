@@ -146,13 +146,18 @@ fluidPage(
                  column(12,
                         tags$div(
                           h3("Über unsere App"),
-                          p('Willkommen zur "Covid App", entwickelt von Yannik 
-                            Krantz, Alexander Metzler und Florian Hauptmann, 
-                            Studierenden im fünften Fachsemester des 
-                            Studiengangs Data Science in der Medizin. Diese App 
-                            entstand im Rahmen unserer Projektarbeit im 
-                            Wahlpflichtfach "Einführung in R und Shiny Apps" 
-                            und dient gleichzeitig als Prüfungsleistung.'),
+                          # reference to data science and thu website
+                          p('Willkommen zur "Covid App", entwickelt von 
+                            Studierenden im fünften Fachsemester des Studiengangs ',
+                            a(href = "https://www.thu.de/de/Seiten/Studiengang_DSM.aspx", 
+                              "Data Science in der Medizin"),
+                            ' an der ',
+                            a(href = "https://www.thu.de/de", 
+                              "technischen Hochschule Ulm"),
+                            '. Diese App entstand im Rahmen unserer Projektarbeit 
+                            im Wahlpflichtfach "Einführung in R und Shiny Apps" 
+                            und dient gleichzeitig als Prüfungsleistung.'
+                          ),
                           br(),
                           h3("Funktionen der App"),
                           p('Die "Covid App" bietet eine intuitive 
