@@ -27,6 +27,9 @@ target_groups <- c("All", "Age0_4", "Age5_9", "Age10_14", "Age15_17",
                    "Age70_79", "Age80+", "AgeUnk")
 
 fluidPage(
+  # bootstrap themes
+  # reference https://mastering-shiny.org/action-layout.html
+  # theme = bslib::bs_theme(bootswatch = "united"),
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css")
   ),
@@ -66,15 +69,30 @@ fluidPage(
                )),
 
       tabPanel("Länder",
-               # bar chart: most vaccinations per country in a side bar panel
-               # table: In which countries were the most vaccinated
+               tags$br(),
+               # drop down choices for target group
+               selectInput("selectedTargetGroup_countries", "Wähle eine Zielgruppe aus:",
+                           choices = target_groups,
+                           selected = "All"),
                fluidRow(
-                 column(12,
-                        tags$div(
-                          h3("Platzhalter Überschrift"),
-                          p("Hier steht bald ein Graph.")
-                        ))
-               )),
+                 # insert space on left and right side
+                 style = "margin-left: 15px; margin-right: 15px;",
+                 tags$h4("Gesamtdosen pro Land"),
+                 # bar chart most doses per country
+                 plotOutput("bar_chart_most_vaccinations")
+               ),
+               
+               # dividing line
+               tags$hr(),
+               
+               mainPanel(
+                 tags$br(),
+                  tags$h4("Länder mit den meisten Dosen"),
+                  tags$br(),
+                  # table: In which countries were the most vaccinated
+                  dataTableOutput("top_countries_table")
+                )
+               ),
 
       tabPanel("Ablehnungsrate",
                # line graph: refusal rate over time
@@ -100,7 +118,7 @@ fluidPage(
                              choices = countries,
                              selected = "All"),
                  # drop down choices for target group
-                 selectInput("selectedTargetGroup", "Wähle eine Zielgruppe aus:",
+                 selectInput("selectedTargetGroup_targetgroups", "Wähle eine Zielgruppe aus:",
                              choices = target_groups,
                              selected = "All")
                ),
@@ -109,6 +127,7 @@ fluidPage(
                  plotlyOutput("line_chart_total_doses"),
                  tags$br()
                ),
+               
                sidebarPanel(
                  # set sidebar panel of pie chart invisible
                  style = "display: none;",
@@ -127,13 +146,18 @@ fluidPage(
                  column(12,
                         tags$div(
                           h3("Über unsere App"),
-                          p('Willkommen zur "Covid App", entwickelt von Yannik 
-                            Krantz, Alexander Metzler und Florian Hauptmann, 
-                            Studierenden im fünften Fachsemester des 
-                            Studiengangs Data Science in der Medizin. Diese App 
-                            entstand im Rahmen unserer Projektarbeit im 
-                            Wahlpflichtfach "Einführung in R und Shiny Apps" 
-                            und dient gleichzeitig als Prüfungsleistung.'),
+                          # reference to data science and thu website
+                          p('Willkommen zur "Covid App", entwickelt von 
+                            Studierenden im fünften Fachsemester des Studiengangs ',
+                            a(href = "https://www.thu.de/de/Seiten/Studiengang_DSM.aspx", 
+                              "Data Science in der Medizin"),
+                            ' an der ',
+                            a(href = "https://www.thu.de/de", 
+                              "technischen Hochschule Ulm"),
+                            '. Diese App entstand im Rahmen unserer Projektarbeit 
+                            im Wahlpflichtfach "Einführung in R und Shiny Apps" 
+                            und dient gleichzeitig als Prüfungsleistung.'
+                          ),
                           br(),
                           h3("Funktionen der App"),
                           p('Die "Covid App" bietet eine intuitive 
@@ -150,8 +174,25 @@ fluidPage(
                             Informationen über den Datensatz: ",
                             a(href="https://www.ecdc.europa.eu/en/publications-data/data-covid-19-vaccination-eu-eea", "Hier klicken")),
                           br(),
+
+
                           h4("Entwickler"),
-                          p("Yannik Krantz, Alexander Metzler, Florian Hauptmann")
+                          p("Yannik Krantz",
+                            a(href = "https://github.com/Y4ng0", img(src = "github-mark.png", height = 20, width = 20))
+                          ),
+                          p("Alexander Metzler",
+                            a(href = "https://github.com/alxmtzr", img(src = "github-mark.png", height = 20, width = 20))
+                          ),
+                          p("Florian Hauptmann",
+                             a(href = "https://github.com/Flo3141", img(src = "github-mark.png", height = 20, width = 20))
+                          ),
+
+                          br(),
+
+                          h4("GitHub Project"),
+                          p("R Shiny Covid App",
+                            a(href = "https://github.com/hierstehtbaldderlinkzumprojekt", img(src = "github-mark.png", height = 20, width = 20))
+                          )
                         ))
                ))
     )
