@@ -61,12 +61,11 @@ fluidPage(
       tabPanel("Impfstoffe",
                # table: how many doses of which vaccine were given in total + Which vaccine had the most additional doses?
                fluidRow(
-                 column(12,
-                        tags$div(
-                          h3("Platzhalter Überschrift"),
-                          p("Hier steht bald ein Graph.")
-                        ))
-               )),
+                 div(
+                   div(tableOutput("total_vaccines_table")),
+                   div(plotlyOutput("total_vaccines_pie"))
+                 )
+                 )),
 
       tabPanel("Länder",
                tags$br(),

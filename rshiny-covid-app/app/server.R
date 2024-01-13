@@ -51,6 +51,41 @@ iso_country_mapping <- setNames(country_names_german, iso_codes)
 function(input, output, session) {
   ##############################################################################
   #                                                                            #
+  #                       tab vaccines                                         #
+  #                                                                            #
+  ##############################################################################
+  
+  ######################### table ##############################################
+  
+  # Group by vaccine and sum up all doses of the week
+  df_vaccine_grouped = df_tibble %>% 
+    group_by(Vaccine) %>% 
+    summarise(Total = sum(DosesThisWeek)) %>% 
+    arrange(desc(Total))
+  
+  # Plot the table
+  output$total_vaccines_table <- renderTable(df_vaccine_grouped)
+  
+  ######################### pie chart ##########################################
+  pie_chart_header = "Anteil der Impstoffe an den gesamt vergebenen Impfungen"
+  
+  output$total_vaccines_pie <- renderPlotly({
+    # Plot the pie chart with the df_vaccine_grouped
+    plot_ly(
+      df_vaccine_grouped,
+      labels = ~ Vaccine,
+      values = ~ Total,
+      type = 'pie',
+      # hover info showing label and value of vaccine
+      hoverinfo = 'label+value'
+    ) %>%
+      layout(
+        title = pie_chart_header
+      )
+  })
+  
+  ##############################################################################
+  #                                                                            #
   #                       tab countries                                        #
   #                                                                            #
   ##############################################################################
