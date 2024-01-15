@@ -94,7 +94,7 @@ fluidPage(
                 )
                ),
 
-      tabPanel("Ablehnungsrate",
+      tabPanel("Dosen",
                # line graph: refusal rate over time
                # table: In which country was the refusal rate highest
                # line graph
@@ -104,6 +104,13 @@ fluidPage(
                           h3("Platzhalter Überschrift"),
                           p("Hier steht bald ein Graph.")
                         ))
+               ),
+               fluidRow(
+                 # insert space on left and right side
+                 style = "margin-left: 15px; margin-right: 15px;",
+                 tags$h4("Verschiedene Dosen"),
+                 # bar chart most doses per country
+                 plotlyOutput("line_chart_doses_over_time")
                )),
       
       tabPanel("Zielgruppen",

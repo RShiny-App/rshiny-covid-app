@@ -118,6 +118,35 @@ function(input, output, session) {
       return(total_doses_by_country)
     })
   
+  ##############################################################################
+  #                                                                            #
+  #                       tab refusal rate                                     #
+  #                                                                            #
+  ##############################################################################
+  
+  ######################### line graph #########################################
+  # group data by year and week and summarise all nummeric values
+  output$line_chart_doses_over_time <- renderPlotly({
+    df_grouped_by_doses <- df_tibble %>%
+      filter(TargetGroup %in% selected_target_groups) %>%
+      select(-c(WeeklyDosesPerRegion_Total, PercentageOfTotalDosesInWeek, FirstDoseRefused)) %>%
+      group_by(YearWeekISO) %>%
+      summarise_if(is.numeric, function(x) sum(x, na.rm = TRUE)) 
+    
+    df_grouped_by_doses %>%
+      plot_ly(x = ~YearWeekISO, y = ~FirstDose, type = 'scatter', mode = 'lines', name = 'FirstDose') %>%
+      add_trace(x = ~YearWeekISO, y = ~SecondDose, type = 'scatter', mode = 'lines', name = 'SecondDose') %>%
+      add_trace(x = ~YearWeekISO, y = ~AdditionalDose, type = 'scatter', mode = 'lines', name = 'AdditionalDose') %>%
+      add_trace(x = ~YearWeekISO, y = ~MoreAdditionalDoses, type = 'scatter', mode = 'lines', name = 'MoreAdditionalDoses') %>%
+      add_trace(x = ~YearWeekISO, y = ~UnknownDose, type = 'scatter', mode = 'lines', name = 'UnknownDose') %>%
+      layout(title = 'Dosen verglichen über Zeit',
+             xaxis = list(title = 'Datum'),
+             yaxis = list(title = 'Anzahl Dosen'))
+  })
+  
+  
+  
+  
   
   ##############################################################################
   #                                                                            #
