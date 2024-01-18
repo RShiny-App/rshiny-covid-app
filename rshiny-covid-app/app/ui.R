@@ -29,7 +29,7 @@ target_groups <- c("All", "Age0_4", "Age5_9", "Age10_14", "Age15_17",
 fluidPage(
   # bootstrap themes
   # reference https://mastering-shiny.org/action-layout.html
-  # theme = bslib::bs_theme(bootswatch = "united"),
+  theme = bslib::bs_theme(),
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css")
   ),
@@ -42,7 +42,7 @@ fluidPage(
     align="right"), "Covid App")),
   
     # tabset panel with different contents
-    tabsetPanel(
+    navbarPage("", collapsible = TRUE,
       tabPanel("Einführung",
                # introduction tab
                # content of introduction
@@ -61,11 +61,50 @@ fluidPage(
       tabPanel("Impfstoffe",
                # table: how many doses of which vaccine were given in total + Which vaccine had the most additional doses?
                fluidRow(
-                 div(
-                   div(tableOutput("total_vaccines_table")),
-                   div(plotlyOutput("total_vaccines_pie"))
+                 tags$div(class="container",
+                          tags$h3(class = "text-center", "Auf dieser Seite werden die vergebenen Impfdosen dargestellt."),
+                          tags$div(class = "row div_border",
+                                   tags$p(class = "text_block" , "In der Tabelle werden die 10 am häufigsten vergebenen Impfstoffe aufgelistet und in dem Kuchendiagramm wird die prozentuale Verteilung der Impfstoffe dargestellt."),
+                                   tags$div(class = "col-12 col-md-6 d-flex justify-content-center align-items-center",
+                                            tags$div(class = "col-12",
+                                                     h5(class = "text-center",
+                                                        "TOP 10 der insgesamt vergebenen Impfstoffe"),
+                                                     tags$div(class = "d-flex justify-content-center",
+                                                              tableOutput("total_vaccines_table")
+                                                     )
+                                               )
+                                            ),
+                                   tags$div(class = "col-12 col-md-6 d-flex align-items-center",
+                                            tags$div(class = "col-12", 
+                                                     h5(class = "text-center",
+                                                        "Anteil der Impstoffe an den gesamt vergebenen Impfungen"),
+                                                     plotlyOutput("total_vaccines_pie") 
+                                                     )
+                                            )
+                                   ),
+                 tags$div(class = "row div_border",
+                            tags$p("In der Tabelle werden die 10 Impfstoffe mit den meisten zusätzlichen Dosen aufgelistet und in dem Kuchendiagramm wird diese Verteilung in nochmals grafisch dargestellt."),
+                            tags$div(class = "col-12 col-md-6 d-flex justify-content-center align-items-center", 
+                                     tags$div(class = "col-12",
+                                              h5(class = "text-center",
+                                                 "TOP 10 der zusätzlichen Dosen der Impfstoffe"),
+                                              tags$div(class = "d-flex justify-content-center",
+                                                       tableOutput("add_doses_vaccines_table")
+                                                       ) 
+                                              )
+                                     ),
+                            tags$div(class = "col-12 col-md-6 d-flex align-items-center",
+                                     tags$div(class = "col-12", 
+                                              h5(class = "text-center",
+                                                 "Verhältnis der zusätzlichem Impfdosen der Impfstoffe"),
+                                              plotlyOutput("add_doses_vaccines_pie")
+                                              )
+                                     )
+                          )
+                   )
                  )
-                 )),
+               ),
+               
 
       tabPanel("Länder",
                tags$br(),
@@ -194,5 +233,9 @@ fluidPage(
                           )
                         ))
                ))
-    )
+    ) 
+) %>% 
+  tagAppendAttributes(
+    .cssSelector = "nav",
+    class = "navbar navbar-expand-lg"
 )

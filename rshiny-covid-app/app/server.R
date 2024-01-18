@@ -15,7 +15,7 @@ library(plotly)
 # Get the directory path of the currently running script
 script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 print(getwd())
-#setwd(script_dir)
+setwd(script_dir)
 
 df_tibble <- as_tibble(read_csv("../resources/data_cleaned.csv"))
 
@@ -55,6 +55,7 @@ function(input, output, session) {
   #                                                                            #
   ##############################################################################
   
+  # What was the vaccine with the overall most doses
   ######################### table ##############################################
   
   # Group by vaccine and sum up all doses of the week
@@ -62,12 +63,11 @@ function(input, output, session) {
     group_by(Vaccine) %>% 
     summarise(Total = sum(DosesThisWeek)) %>% 
     arrange(desc(Total))
-  
+  df_vaccine_grouped_top_10 = head(df_vaccine_grouped, 10) %>% rename(Impfstoff = Vaccine)
   # Plot the table
-  output$total_vaccines_table <- renderTable(df_vaccine_grouped)
+  output$total_vaccines_table <- renderTable(df_vaccine_grouped_top_10)
   
   ######################### pie chart ##########################################
-  pie_chart_header = "Anteil der Impstoffe an den gesamt vergebenen Impfungen"
   
   output$total_vaccines_pie <- renderPlotly({
     # Plot the pie chart with the df_vaccine_grouped
@@ -78,10 +78,36 @@ function(input, output, session) {
       type = 'pie',
       # hover info showing label and value of vaccine
       hoverinfo = 'label+value'
-    ) %>%
-      layout(
-        title = pie_chart_header
-      )
+    )
+  })
+  
+  # What was the vaccine with the most additional doses
+  ######################### table ##############################################
+  
+  # Group by vaccine and sum up all the additional doses
+  
+  df_vaccine_add_doses = df_tibble %>% 
+    group_by(Vaccine) %>% 
+    summarise(Total = sum(AdditionalDose, MoreAdditionalDoses)) %>% 
+    arrange(desc(Total))
+  
+  df_vaccine_add_doses_top_10 = head(df_vaccine_add_doses, 10) %>% rename(Impfstoff = Vaccine)
+  
+  # Plot the table
+  output$add_doses_vaccines_table <- renderTable(df_vaccine_add_doses_top_10)
+  
+  ######################### pie chart ##########################################
+  
+  output$add_doses_vaccines_pie <- renderPlotly({
+    # Plot the pie chart with the df_vaccine_grouped
+    plot_ly(
+      df_vaccine_add_doses,
+      labels = ~ Vaccine,
+      values = ~ Total,
+      type = 'pie',
+      # hover info showing label and value of vaccine
+      hoverinfo = 'label+value'
+    )
   })
   
   ##############################################################################
