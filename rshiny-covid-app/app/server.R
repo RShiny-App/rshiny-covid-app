@@ -11,6 +11,7 @@ library(shiny)
 library(readr)
 library(tibble)
 library(plotly)
+library(tidyverse)
 
 # Get the directory path of the currently running script
 script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
@@ -120,19 +121,21 @@ function(input, output, session) {
   
   ##############################################################################
   #                                                                            #
-  #                       tab refusal rate                                     #
+  #                       tab Doses                                            #
   #                                                                            #
   ##############################################################################
   
   ######################### line graph #########################################
-  # group data by year and week and summarise all nummeric values
+  # group data by year and week and summarise all nummeric values in each Group
   output$line_chart_doses_over_time <- renderPlotly({
     df_grouped_by_doses <- df_tibble %>%
-      filter(TargetGroup %in% selected_target_groups) %>%
-      select(-c(WeeklyDosesPerRegion_Total, PercentageOfTotalDosesInWeek, FirstDoseRefused)) %>%
+      filter(TargetGroup %in% selected_target_groups) %>% #Data must only come from the Age Groups, else there would be people counted twice
+      select(-c(WeeklyDosesPerRegion_Total, PercentageOfTotalDosesInWeek)) %>% #Certain Columns are calculated from multiple rows and would not make sense in context
       group_by(YearWeekISO) %>%
-      summarise_if(is.numeric, function(x) sum(x, na.rm = TRUE)) 
+      summarise_if(is.numeric, sum, na.rm=TRUE) #All numeric columns need to be summed up within each group (YearWeekISO)
+      #https://dplyr.tidyverse.org/reference/summarise_all.html (Documentation for summarise_if)
     
+    #Plot each Dose
     df_grouped_by_doses %>%
       plot_ly(x = ~YearWeekISO, y = ~FirstDose, type = 'scatter', mode = 'lines', name = 'FirstDose') %>%
       add_trace(x = ~YearWeekISO, y = ~SecondDose, type = 'scatter', mode = 'lines', name = 'SecondDose') %>%
@@ -143,6 +146,21 @@ function(input, output, session) {
              xaxis = list(title = 'Datum'),
              yaxis = list(title = 'Anzahl Dosen'))
   })
+  
+  ########################### table ############################################
+  # render data table total doses for each country
+  output$doses_per_country <- renderDataTable(
+    options = list(pageLength=10),
+    { df_grouped_by_doses <- df_tibble %>%
+      filter(TargetGroup %in% selected_target_groups) %>% #Data must only come from the Age Groups, else there would be people counted twice
+      select(c(ReportingCountry, FirstDose, SecondDose, AdditionalDose, MoreAdditionalDoses)) %>% 
+      group_by(iso_country_mapping[ReportingCountry]) %>% #map country code to country
+      summarise_if(is.numeric, sum, na.rm=TRUE) #Sum up numeric columns
+    
+      colnames(df_grouped_by_doses) <- c("Land", "Erste Dosis", "Zweite Dosis", "Zusätzliche Dosis", "Weitere zusätzliche Dosen")
+      return(df_grouped_by_doses)
+    }
+  )
   
   
   
