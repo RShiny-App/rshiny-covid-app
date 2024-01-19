@@ -47,12 +47,12 @@ fluidPage(
   titlePanel(
     fluidRow(
       # sum of columns has to be 12
-      column(11, "Covid-19 Statistics Application"),
+      column(10, "Covid-19 Statistics Application"),
 
       # dark mode switch
       # shinywidgets -> https://dreamrs.github.io/shinyWidgets/
       # possible status: default, primary, info, success, warning, danger
-      column(1, shinyWidgets::materialSwitch("theme_switch", status = "info", value = TRUE))
+      column(2, shinyWidgets::materialSwitch("theme_switch", label="dark", status = "info", value = TRUE))
     )
   ),
 
