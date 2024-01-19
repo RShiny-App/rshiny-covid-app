@@ -90,7 +90,8 @@ Welcome to the "Covid App," developed by students in the fifth semester of the [
 
 ### App Features
 
-The "Covid App" offers an intuitive user interface to visualize data related to COVID-19 vaccinations in the countries of the European Union and the European Economic Area. The app presents comprehensive information about the distribution of vaccine doses, administration rates, and rejection statistics.
+The "Covid App" offers an intuitive user interface to visualize data related to COVID-19 vaccinations in the countries of the European Union and the European Economic Area. The app presents comprehensive information about the distribution of vaccine doses, administration rates, and rejection statistics. You can choose to use this app in light or dark mode by toggling the switch in 
+the top right corner.
 
 ### Additional Information
 
