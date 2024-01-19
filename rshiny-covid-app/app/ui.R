@@ -27,31 +27,34 @@ target_groups <- c("All", "Age0_4", "Age5_9", "Age10_14", "Age15_17",
                    "Age18_24", "Age25_49", "Age50_59", "Age60_69", 
                    "Age70_79", "Age80+", "AgeUnk")
 
-# themes
+# set default theme
+# bootstrap themes
+# reference https://mastering-shiny.org/action-layout.html
 dark <- bslib::bs_theme(bootswatch = "darkly")
 
 fluidPage(
-  # bootstrap themes
-  # reference https://mastering-shiny.org/action-layout.html
-  #tags$div(
-    # img(src="../www/logo.svg", 
-   # img(src="logo.svg", 
-    #    alt="thu_logo", 
-     #   height=60,
-      #  align="right"), "Covid App")
   # setting default theme
   theme = dark,
-  # dark mode switch
-  # shinywidgets -> https://dreamrs.github.io/shinyWidgets/
-  materialSwitch("theme_switch", label = "Theme", status = "danger"),
+
+  # include stylesheet 
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css")
   ),
-  # Application title
-  titlePanel(title="Covid App"),
   
-    # tabset panel with different contents
-    navbarPage("", collapsible = TRUE,
+  # Application title with dark mode switch
+  titlePanel(
+    fluidRow(
+      # sum of columns has to be 12
+      column(11, "Covid App"),
+
+      # dark mode switch
+      # shinywidgets -> https://dreamrs.github.io/shinyWidgets/
+      column(1, materialSwitch("theme_switch", status = "danger"))
+    )
+  ),
+
+    # navbar page with different contents
+    navbarPage(title="", collapsible = TRUE,
       
       # setting theme in fluidPage AND navbar Page
       # reference = https://stackoverflow.com/questions/70095322/dark-mode-switch-doesnt-work-using-navbarpage-shiny

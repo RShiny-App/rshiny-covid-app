@@ -50,7 +50,7 @@ country_names_german <- c("Oesterreich", "Belgien", "Bulgarien", "Zypern",
 iso_country_mapping <- setNames(country_names_german, iso_codes)
 
 # themes
-light <- bslib::bs_theme()
+light <- bslib::bs_theme(bootswatch = "minty")
 dark <- bslib::bs_theme(bootswatch = "darkly")
 
 # Define server logic
