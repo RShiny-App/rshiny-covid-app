@@ -199,7 +199,7 @@ function(input, output, session) {
   ##############################################################################
   
   ######################### line graph #########################################
-  # group data by year and week and summarise all nummeric values in each Group
+  # group data by year and week and summarize all numeric values in each Group
   output$line_chart_doses_over_time <- renderPlotly({
     df_grouped_by_doses <- df_tibble %>%
       filter(TargetGroup %in% selected_target_groups) %>% #Data must only come from the Age Groups, else there would be people counted twice
