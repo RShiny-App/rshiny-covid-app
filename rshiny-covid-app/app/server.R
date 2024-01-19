@@ -11,11 +11,13 @@ library(shiny)
 library(readr)
 library(tibble)
 library(plotly)
+library(shinyjs)
+library(bslib)
 
 # Get the directory path of the currently running script
 script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 print(getwd())
-setwd(script_dir)
+#setwd(script_dir)
 
 df_tibble <- as_tibble(read_csv("../resources/data_cleaned.csv"))
 
@@ -47,8 +49,18 @@ country_names_german <- c("Oesterreich", "Belgien", "Bulgarien", "Zypern",
 # mapping iso_codes and country_names_german
 iso_country_mapping <- setNames(country_names_german, iso_codes)
 
+# themes
+light <- bslib::bs_theme()
+dark <- bslib::bs_theme(bootswatch = "darkly")
+
 # Define server logic
 function(input, output, session) {
+  
+  # dark mode switch
+  # reference = https://rstudio.github.io/bslib/articles/theming/#dynamic
+  observe(session$setCurrentTheme(
+    if (isTRUE(input$theme_switch)) light else dark
+  ))
   ##############################################################################
   #                                                                            #
   #                       tab vaccines                                         #
