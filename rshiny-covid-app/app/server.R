@@ -11,7 +11,11 @@ library(shiny)
 library(readr)
 library(tibble)
 library(plotly)
+<<<<<<< HEAD
 library(tidyverse)
+=======
+library(bslib)
+>>>>>>> tab_vaccines
 
 # Get the directory path of the currently running script
 script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
@@ -48,8 +52,79 @@ country_names_german <- c("Oesterreich", "Belgien", "Bulgarien", "Zypern",
 # mapping iso_codes and country_names_german
 iso_country_mapping <- setNames(country_names_german, iso_codes)
 
+# themes
+light <- bslib::bs_theme(bootswatch = "flatly")
+dark <- bslib::bs_theme(bootswatch = "darkly")
+
 # Define server logic
 function(input, output, session) {
+  
+  # dark mode switch
+  # reference = https://rstudio.github.io/bslib/articles/theming/#dynamic
+  observe(session$setCurrentTheme(
+    if (isTRUE(input$theme_switch)) dark else light
+  ))
+  ##############################################################################
+  #                                                                            #
+  #                       tab vaccines                                         #
+  #                                                                            #
+  ##############################################################################
+  
+  # What was the vaccine with the overall most doses
+  ######################### table ##############################################
+  
+  # Group by vaccine and sum up all doses of the week
+  df_vaccine_grouped = df_tibble %>% 
+    group_by(Vaccine) %>% 
+    summarise(Total = sum(DosesThisWeek)) %>% 
+    arrange(desc(Total))
+  df_vaccine_grouped_top_10 = head(df_vaccine_grouped, 10) %>% rename(Impfstoff = Vaccine)
+  # Plot the table
+  output$total_vaccines_table <- renderTable(df_vaccine_grouped_top_10)
+  
+  ######################### pie chart ##########################################
+  
+  output$total_vaccines_pie <- renderPlotly({
+    # Plot the pie chart with the df_vaccine_grouped
+    plot_ly(
+      df_vaccine_grouped,
+      labels = ~ Vaccine,
+      values = ~ Total,
+      type = 'pie',
+      # hover info showing label and value of vaccine
+      hoverinfo = 'label+value'
+    )
+  })
+  
+  # What was the vaccine with the most additional doses
+  ######################### table ##############################################
+  
+  # Group by vaccine and sum up all the additional doses
+  
+  df_vaccine_add_doses = df_tibble %>% 
+    group_by(Vaccine) %>% 
+    summarise(Total = sum(AdditionalDose, MoreAdditionalDoses)) %>% 
+    arrange(desc(Total))
+  
+  df_vaccine_add_doses_top_10 = head(df_vaccine_add_doses, 10) %>% rename(Impfstoff = Vaccine)
+  
+  # Plot the table
+  output$add_doses_vaccines_table <- renderTable(df_vaccine_add_doses_top_10)
+  
+  ######################### pie chart ##########################################
+  
+  output$add_doses_vaccines_pie <- renderPlotly({
+    # Plot the pie chart with the df_vaccine_grouped
+    plot_ly(
+      df_vaccine_add_doses,
+      labels = ~ Vaccine,
+      values = ~ Total,
+      type = 'pie',
+      # hover info showing label and value of vaccine
+      hoverinfo = 'label+value'
+    )
+  })
+  
   ##############################################################################
   #                                                                            #
   #                       tab countries                                        #

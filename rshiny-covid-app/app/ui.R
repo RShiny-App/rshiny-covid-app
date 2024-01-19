@@ -10,6 +10,7 @@
 library(shiny)
 # plotly for plotlyOutput()
 library(plotly)
+library(shinyWidgets)
 
 # Get the directory path of the currently running script
 script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
@@ -26,23 +27,42 @@ target_groups <- c("All", "Age0_4", "Age5_9", "Age10_14", "Age15_17",
                    "Age18_24", "Age25_49", "Age50_59", "Age60_69", 
                    "Age70_79", "Age80+", "AgeUnk")
 
+# set default theme
+# bootstrap themes
+# reference https://mastering-shiny.org/action-layout.html
+dark <- bslib::bs_theme(bootswatch = "darkly")
+
 fluidPage(
-  # bootstrap themes
-  # reference https://mastering-shiny.org/action-layout.html
-  # theme = bslib::bs_theme(bootswatch = "united"),
+  # setting default theme
+  theme = dark,
+
+  # include stylesheet 
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css")
   ),
-  # Application title
-  titlePanel(title=tags$div(
-    # img(src="../www/logo.svg", 
-    img(src="logo.svg", 
-    alt="thu_logo", 
-    height=60,
-    align="right"), "Covid App")),
   
-    # tabset panel with different contents
-    tabsetPanel(
+  tags$br(),
+  
+  # Application title with dark mode switch
+  titlePanel(
+    fluidRow(
+      # sum of columns has to be 12
+      column(10, "Covid-19 Statistics Application"),
+
+      # dark mode switch
+      # shinywidgets -> https://dreamrs.github.io/shinyWidgets/
+      # possible status: default, primary, info, success, warning, danger
+      column(2, shinyWidgets::materialSwitch("theme_switch", label="dark", status = "info", value = TRUE))
+    )
+  ),
+
+    # navbar page with different contents
+    navbarPage(title="", collapsible = TRUE,
+      
+      # setting theme in fluidPage AND navbar Page
+      # reference = https://stackoverflow.com/questions/70095322/dark-mode-switch-doesnt-work-using-navbarpage-shiny
+      theme = dark,
+      
       tabPanel("Einführung",
                # introduction tab
                # content of introduction
@@ -61,12 +81,50 @@ fluidPage(
       tabPanel("Impfstoffe",
                # table: how many doses of which vaccine were given in total + Which vaccine had the most additional doses?
                fluidRow(
-                 column(12,
-                        tags$div(
-                          h3("Platzhalter Überschrift"),
-                          p("Hier steht bald ein Graph.")
-                        ))
-               )),
+                 tags$div(class="container",
+                          tags$h3(class = "text-center", "Auf dieser Seite werden die vergebenen Impfdosen dargestellt."),
+                          tags$div(class = "row div_border",
+                                   tags$p(class = "text_block" , "In der Tabelle werden die 10 am häufigsten vergebenen Impfstoffe aufgelistet und in dem Kuchendiagramm wird die prozentuale Verteilung der Impfstoffe dargestellt."),
+                                   tags$div(class = "col-12 col-md-6 d-flex justify-content-center align-items-center",
+                                            tags$div(class = "col-12",
+                                                     h5(class = "text-center",
+                                                        "TOP 10 der insgesamt vergebenen Impfstoffe"),
+                                                     tags$div(class = "d-flex justify-content-center",
+                                                              tableOutput("total_vaccines_table")
+                                                     )
+                                               )
+                                            ),
+                                   tags$div(class = "col-12 col-md-6 d-flex align-items-center",
+                                            tags$div(class = "col-12", 
+                                                     h5(class = "text-center",
+                                                        "Anteil der Impstoffe an den gesamt vergebenen Impfungen"),
+                                                     plotlyOutput("total_vaccines_pie") 
+                                                     )
+                                            )
+                                   ),
+                 tags$div(class = "row div_border",
+                            tags$p("In der Tabelle werden die 10 Impfstoffe mit den meisten zusätzlichen Dosen aufgelistet und in dem Kuchendiagramm wird diese Verteilung in nochmals grafisch dargestellt."),
+                            tags$div(class = "col-12 col-md-6 d-flex justify-content-center align-items-center", 
+                                     tags$div(class = "col-12",
+                                              h5(class = "text-center",
+                                                 "TOP 10 der zusätzlichen Dosen der Impfstoffe"),
+                                              tags$div(class = "d-flex justify-content-center",
+                                                       tableOutput("add_doses_vaccines_table")
+                                                       ) 
+                                              )
+                                     ),
+                            tags$div(class = "col-12 col-md-6 d-flex align-items-center",
+                                     tags$div(class = "col-12", 
+                                              h5(class = "text-center",
+                                                 "Verhältnis der zusätzlichem Impfdosen der Impfstoffe"),
+                                              plotlyOutput("add_doses_vaccines_pie")
+                                              )
+                                     )
+                          )
+                   )
+                 )
+               ),
+               
 
       tabPanel("Länder",
                tags$br(),
@@ -204,6 +262,10 @@ fluidPage(
                             a(href = "https://github.com/hierstehtbaldderlinkzumprojekt", img(src = "github-mark.png", height = 20, width = 20))
                           )
                         ))
-               ))
-    )
+               )),
+    ) 
+) %>% 
+  tagAppendAttributes(
+    .cssSelector = "nav",
+    class = "navbar navbar-expand-lg"
 )
