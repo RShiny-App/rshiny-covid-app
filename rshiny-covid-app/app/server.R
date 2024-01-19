@@ -11,11 +11,9 @@ library(shiny)
 library(readr)
 library(tibble)
 library(plotly)
-<<<<<<< HEAD
-library(tidyverse)
-=======
+library(dplyr)
 library(bslib)
->>>>>>> tab_vaccines
+
 
 # Get the directory path of the currently running script
 script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
