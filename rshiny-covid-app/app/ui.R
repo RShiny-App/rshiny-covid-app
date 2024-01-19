@@ -41,11 +41,13 @@ fluidPage(
     tags$link(rel = "stylesheet", href = "style.css")
   ),
   
+  tags$br(),
+  
   # Application title with dark mode switch
   titlePanel(
     fluidRow(
       # sum of columns has to be 12
-      column(11, "Covid App"),
+      column(11, "Covid-19 Statistics Application"),
 
       # dark mode switch
       # shinywidgets -> https://dreamrs.github.io/shinyWidgets/
