@@ -1,5 +1,30 @@
-Shiny tags html (Zugriff 31.12.23):
+UI:
+Shiny tags html 
 * https://shiny.posit.co/r/articles/build/html-tags/
 
-Logo in titlePanel (Zugriff 31.12.23):
+Logo in titlePanel
 * https://stackoverflow.com/questions/36182535/how-to-place-an-image-in-an-r-shiny-title
+
+bootstrap themes
+* https://mastering-shiny.org/action-layout.html
+
+dark mode switch, shinywidgets 
+* https://dreamrs.github.io/shinyWidgets/
+
+setting theme in fluidPage AND navbar Page
+* https://stackoverflow.com/questions/70095322/dark-mode-switch-doesnt-work-using-navbarpage-shiny
+
+pie chart plot
+* https://stackoverflow.com/questions/41255810/r-shinyapp-not-showing-plot-ly-in-browser-but-show-only-graph-in-viewer-pane
+
+
+
+Server:
+dark mode switch
+* https://rstudio.github.io/bslib/articles/theming/#dynamic
+
+render data table total doses per country
+* https://shiny.posit.co/r/reference/shiny/latest/rendertable
+
+Documentation for summarise_if
+* https://dplyr.tidyverse.org/reference/summarise_all.html 
