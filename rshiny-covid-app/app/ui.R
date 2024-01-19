@@ -49,7 +49,7 @@ fluidPage(
 
       # dark mode switch
       # shinywidgets -> https://dreamrs.github.io/shinyWidgets/
-      column(1, materialSwitch("theme_switch", status = "danger"))
+      column(1, shinyWidgets::materialSwitch("theme_switch", status = "danger"))
     )
   ),
 
