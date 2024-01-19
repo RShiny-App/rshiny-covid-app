@@ -17,3 +17,7 @@ h5 {
 .fit_height {
   height: fit-content;
 }
+
+.navbar {
+  border-radius: 10px;
+}
