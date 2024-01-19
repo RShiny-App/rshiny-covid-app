@@ -59,7 +59,7 @@ function(input, output, session) {
   # dark mode switch
   # reference = https://rstudio.github.io/bslib/articles/theming/#dynamic
   observe(session$setCurrentTheme(
-    if (isTRUE(input$theme_switch)) light else dark
+    if (isTRUE(input$theme_switch)) dark else light
   ))
   ##############################################################################
   #                                                                            #
