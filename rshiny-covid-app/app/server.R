@@ -11,7 +11,6 @@ library(shiny)
 library(readr)
 library(tibble)
 library(plotly)
-library(shinyjs)
 library(bslib)
 
 # Get the directory path of the currently running script
