@@ -393,7 +393,7 @@ fluidPage(
                      tags$div(
                        h3("Über unsere App"),
                        # reference to data science and thu website
-                       p(
+                       p(class = "text_block",
                          'Willkommen zur "Covid App", entwickelt von
                             Studierenden im fünften Fachsemester des Studiengangs ',
                          a(href = "https://www.thu.de/de/Seiten/Studiengang_DSM.aspx",
@@ -407,15 +407,15 @@ fluidPage(
                        ),
                        br(),
                        h3("Funktionen der App"),
-                       p(
+                       p(class = "text_block",
                          'Die "Covid App" bietet eine intuitive
                             Benutzeroberfläche, die es ermöglicht, Daten im
                             Zusammenhang mit COVID-19-Impfungen in den Ländern
                             der Europäischen Union und des Europäischen
                             Wirtschaftsraums zu visualisieren. Die App
                             präsentiert umfassende Informationen über die
-                            Verteilung von Impfstoffdosen, Verabreichungsraten
-                            und Ablehnungsstatistiken.'
+                            Verteilung von den verschiedenen Impfstoffen, 
+                            den Impfdosen und Verabreichungsraten.'
                        ),
                        br(),
                        h4("Weitere Informationen"),
