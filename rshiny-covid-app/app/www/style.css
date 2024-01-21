@@ -18,6 +18,22 @@ h5 {
   height: fit-content;
 }
 
+.fit_width {
+  width: fit-content !important;
+}
+
 .navbar {
   border-radius: 10px;
+}
+
+.min_width {
+  width: min-content;
+}
+
+.padding_right {
+  padding-right: 10px;
+}
+
+.margin_bot {
+  margin-bottom: 10px;
 }
