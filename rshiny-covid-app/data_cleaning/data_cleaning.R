@@ -8,9 +8,11 @@ library(stringr)
 # 
 df <- df %>% mutate_if(is.numeric, function(x) ifelse(is.na(x), 0, x))
 
-# Step 2: Merge AdditionalDose 2-5 to MoreAdditionalDoses (we leave them in for now)
+# Step 2: Merge AdditionalDose 2-5 to MoreAdditionalDoses 
+# Drop merged columns
 #
 df$MoreAdditionalDoses <- rowSums(df[, c('DoseAdditional2','DoseAdditional3', 'DoseAdditional4','DoseAdditional5')])
+df <- df %>% select( -DoseAdditional2, -DoseAdditional3, -DoseAdditional4, -DoseAdditional5)
 
 # Step 3: Rename and relocate Columns
 #
