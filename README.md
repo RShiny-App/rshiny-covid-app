@@ -39,6 +39,7 @@ Welcome to the COVID-19 Vaccination Data Visualization App for the European Unio
 ## Explore Tabs:
 
    - **Countries Tab:**
+   <img src="readme_files/tab_countries.png">
      - Visualize vaccination data by country.
      - Utilizes bar charts and tables to display total doses administered.
      - Choose specific target groups to narrow down the analysis.
