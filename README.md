@@ -120,11 +120,12 @@ Running under: Windows 11 x64 (build 22621)
 * plotly
 * ggplot2
 * shiny
+* DT
 
 To run this Shiny app, you need to install the following R packages:
 
 ```R
-install.packages(c("stringr", "bslib", "dplyr", "tibble", "readr", "shinyWidgets", "plotly", "ggplot2", "shiny"))
+install.packages(c("stringr", "bslib", "dplyr", "tibble", "readr", "shinyWidgets", "plotly", "ggplot2", "shiny", "DT"))
 ```
 
 Make sure to install these packages before running the app to ensure all dependencies are satisfied.
