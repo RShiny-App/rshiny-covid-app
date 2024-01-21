@@ -4,6 +4,7 @@ library(tibble)
 library(plotly)
 library(dplyr)
 library(bslib)
+library(DT)
 
 df_tibble <- as_tibble(read_csv("../resources/data_cleaned.csv"))
 
@@ -225,8 +226,7 @@ function(input, output, session) {
   
   ########################### table ############################################
   # render data table total doses per country
-  output$top_countries_table <- renderDataTable(# default value for show entries
-    options = list(pageLength = 10),
+  output$top_countries_table <- renderUI(
     {
       if (input$selectedTargetGroup_countries == "All") {
         # if no specific target group is selected
@@ -253,7 +253,9 @@ function(input, output, session) {
       
       # set the column names
       colnames(total_doses_by_country) <- col_names
-      return(total_doses_by_country)
+      table <- DT::datatable(total_doses_by_country, style = "bootstrap4", rownames = FALSE)
+      
+      return(table)
     })
   
   ##############################################################################
@@ -323,7 +325,7 @@ function(input, output, session) {
   
   ########################### table ############################################
   # render data table total doses for each country
-  output$doses_per_country <- renderDataTable(options = list(pageLength = 10),
+  output$doses_per_country <- renderUI(
     {
       #Data must only come from the Age Groups, 
       #else there would be people counted twice
@@ -351,7 +353,9 @@ function(input, output, session) {
           "Zusätzliche Dosis",
           "Weitere zusätzliche Impfdosen"
         )
-      return(df_grouped_by_doses)
+      table <- DT::datatable(df_grouped_by_doses, style = "bootstrap4", rownames = FALSE)
+      
+      return(table)
     })
   
   

@@ -1,4 +1,5 @@
 library(shiny)
+library(DT)
 # plotly for plotlyOutput()
 library(plotly)
 library(shinyWidgets)
@@ -69,249 +70,345 @@ fluidPage(
   
   tags$br(),
   
-  # Application title with dark mode switch
-  titlePanel(fluidRow(
-    # sum of columns has to be 12
-    column(10, "COVID-19 Statistik Anwendung "),
-    
-    # dark mode switch
-    # possible status: default, primary, info, success, warning, danger
-    column(
-      2,
-      shinyWidgets::materialSwitch(
-        "theme_switch",
-        label = "dark",
-        status = "info",
-        value = TRUE
+  tags$div(
+    class = "container",
+    tags$div(
+      class = "row",
+      # Application title with dark mode switch
+      tags$div(
+        class = "col-12",
+        tags$h1(class = "text-center",
+                "COVID-19 Statistik Anwendung")
+      )
+    ),
+    tags$div(
+      class = "row",
+      tags$div(
+        class = "col-12 d-flex justify-content-end align-items-center",
+        tags$div(class = "padding_right",
+          tags$p("Dark")
+        ),
+        
+        # dark mode switch
+        # possible status: default, primary, info, 
+        # success, warning, danger
+        tags$div(
+          shinyWidgets::materialSwitch(
+            "theme_switch",
+            status = "info",
+            value = TRUE
+          ) %>%
+            tagAppendAttributes(class = "fit_width")
+        )
       )
     )
-  )),
+  ),
   
-  # navbar page with different contents
-  navbarPage(
-    title = "",
-    collapsible = TRUE,
-    
-    # setting theme in fluidPage AND navbar Page
-    theme = dark,
-    
-    tabPanel("Einführung",
-             # introduction tab
-             # content of introduction
-             fluidRow(column(12,
-                             tags$div(
-                               HTML(
-                                 "<h3>Einführung zu COVID-19</h3>
+  tags$div(
+    class = "container",
+    tags$div(
+      class = "row",
+      tags$div(
+        class = "col-12",
+        # navbar page with different contents
+        navbarPage(
+          title = tags$a(href = "https://www.thu.de/de",
+                         tags$img(
+                           src = "logo.svg", 
+                           alt = "THU Logo", 
+                           height = "50x")
+                         ),
+          collapsible = TRUE,
+          
+          # setting theme in fluidPage AND navbar Page
+          theme = dark,
+          
+          tabPanel("Einführung",
+                   # introduction tab
+                   # content of introduction
+                   tags$div(class = "container",
+                            tags$div(
+                              class = "row",
+                              tags$div(class = "col-12",
+                                       tags$div(
+                                         HTML(
+                                           "<h3>Einführung zu COVID-19</h3>
                                   <h5>Kurzinformation</h5>
-                                  <p>Die Krankheit COVID-19, Kurzform für 
-                                 „<b>Co</b>rona<b> Vi</b>rus <b>D</b>isease 
-                                 2019“, ist eine Infektionskrankheit, welche 
-                                 durch den Erreger SARS-CoV-2 verursacht wird. 
-                                 Dieses Virus war Anfang 2020 der Auslöser der 
+                                  <p class = 'text_block'>Die Krankheit COVID-19, 
+                                  Kurzform für„<b>Co</b>rona<b> Vi</b>rus 
+                                  <b>D</b>isease2019“, ist eine 
+                                  Infektionskrankheit, welche durch den Erreger 
+                                  SARS-CoV-2 verursacht wird.
+                                 Dieses Virus war Anfang 2020 der Auslöser der
                                  COVID-19-Pandemie. Der Hauptübertragungsweg des
-                                 Virus ist die Tröpfcheninfektion, also über 
-                                 kleine Aerosole, die eingeatmet werden. Zu den 
-                                 häufigsten Symptomen zählen Husten, Fieber, 
-                                 Schnupfen und die Störung des Geschmacks- und 
+                                 Virus ist die Tröpfcheninfektion, also über
+                                 kleine Aerosole, die eingeatmet werden. Zu den
+                                 häufigsten Symptomen zählen Husten, Fieber,
+                                 Schnupfen und die Störung des Geschmacks- und
                                  Geruchssinns. Besonders risikobehaftet sind vor
-                                 allem ältere Personen und Personen mit 
-                                 Vorerkrankungen. Die mediane Inkubationszeit 
+                                 allem ältere Personen und Personen mit
+                                 Vorerkrankungen. Die mediane Inkubationszeit
                                  beträgt in etwa 4-6 Tage, je nach Virusvariante
-                                 und die Krankheit dauert etwa 8-10 Tage an, 
+                                 und die Krankheit dauert etwa 8-10 Tage an,
                                  falls keine Therapie durchgeführt wird. </p>
                                   <h5>Übertragungswege</h3>
-                                  <p>Der Hauptübertragungsweg des COVID-19 
-                                 Erregers ist die Tröpfcheninfektion. Dabei 
+                                  <p class = 'text_block'>Der 
+                                 Hauptübertragungsweg des COVID-19
+                                 Erregers ist die Tröpfcheninfektion. Dabei
                                  werden kleine Partikel in der Luft, welche die
-                                 Viren enthalten, eingeatmet und gelangen so in 
-                                 den Körper. Die Übertragungswahrscheinlichkeit 
-                                 von einer Infozierten Person zu einer 
-                                 Nichtinfizierten steigt dabei, wenn sich beide 
-                                 Personen in einem geschlossenen Raum aufhalten, 
-                                 besonders wenn dieser schlecht belüftet ist. 
-                                 Es empfiehlt sich demnach bei längerem 
+                                 Viren enthalten, eingeatmet und gelangen so in
+                                 den Körper. Die Übertragungswahrscheinlichkeit
+                                 von einer Infozierten Person zu einer
+                                 Nichtinfizierten steigt dabei, wenn sich beide
+                                 Personen in einem geschlossenen Raum aufhalten,
+                                 besonders wenn dieser schlecht belüftet ist.
+                                 Es empfiehlt sich demnach bei längerem
                                  Aufenthalt in einem Raum regelmäßig zu lüften.
-                                 Auch das Tragen von Masken wie einem 
-                                 Mund-Nasen-Schutz können das Risiko einer 
+                                 Auch das Tragen von Masken wie einem
+                                 Mund-Nasen-Schutz können das Risiko einer
                                  Infektion senken. </p>
                                 "
-                               )
-                             )))),
-    
-    tabPanel("Impfstoffe",
-             # table: how many doses of which vaccine were given in total + 
-             # Which vaccine had the most additional doses?
-             fluidRow(
-               tags$div(
-                 class = "container",
-                 tags$h3(class = "text-center", "Vergebene Impfdosen"),
-                 tags$div(
-                   class = "row div_border",
-                   tags$p(
-                     class = "text_block" ,
-                     "In der Tabelle werden die 10 am häufigsten vergebenen 
-                     Impfstoffe aufgelistet und in dem Kuchendiagramm wird die 
+                                         )
+                                       ))
+                            ))),
+          
+          tabPanel("Impfstoffe",
+                   # table: how many doses of which vaccine were given in total +
+                   # Which vaccine had the most additional doses?
+                   fluidRow(
+                     tags$div(
+                       class = "container",
+                       tags$h3(class = "text-center", "Vergebene Impfstoffe"),
+                       tags$div(
+                         class = "row div_border",
+                         tags$p(
+                           class = "text_block" ,
+                           "In der Tabelle werden die 10 am häufigsten vergebenen
+                     Impfstoffe aufgelistet und in dem Kuchendiagramm wird die
                      prozentuale Verteilung der Impfstoffe dargestellt."
-                   ),
-                   tags$div(class = "col-12 col-md-6 d-flex 
+                         ),
+                     tags$div(
+                       class = "col-12 col-md-6 d-flex
                             justify-content-center align-items-center",
-                            tags$div(
-                              class = "col-12",
-                              h5(class = "text-center",
-                                 "TOP 10 der insgesamt vergebenen Impfstoffe"),
-                              tags$div(class = "d-flex justify-content-center",
-                                       tableOutput("total_vaccines_table"))
-                            )),
-                   tags$div(class = "col-12 col-md-6 d-flex align-items-center",
-                            tags$div(
-                              class = "col-12",
-                              h5(class = "text-center",
-                                 "Anteil der Impstoffe an den gesamt vergebenen 
+                       tags$div(
+                         class = "col-12",
+                         h5(class = "text-center",
+                            "TOP 10 der insgesamt vergebenen Impfstoffe"),
+                         tags$div(class = "d-flex justify-content-center",
+                                  tableOutput("total_vaccines_table"))
+                       )
+                     ),
+                     tags$div(class = "col-12 col-md-6 d-flex align-items-center",
+                              tags$div(
+                                class = "col-12",
+                                h5(class = "text-center",
+                                   "Anteil der Impstoffe an den gesamt vergebenen
                                  Impfungen"),
-                              plotlyOutput("total_vaccines_pie")
-                            ))
-                 ),
-                 tags$div(
-                   class = "row div_border",
-                   tags$p(
-                     "In der Tabelle werden die 10 Impfstoffe mit den meisten 
-                     zusätzlichen Dosen aufgelistet und in dem Kuchendiagramm 
+                                plotlyOutput("total_vaccines_pie")
+                              ))
+                       ),
+                     tags$div(
+                       class = "row div_border",
+                       tags$p(
+                         "In der Tabelle werden die 10 Impfstoffe mit den meisten
+                     zusätzlichen Dosen aufgelistet und in dem Kuchendiagramm
                      wird diese Verteilung in nochmals grafisch dargestellt."
-                   ),
-                   tags$div(class = "col-12 col-md-6 d-flex 
+                       ),
+                     tags$div(
+                       class = "col-12 col-md-6 d-flex
                             justify-content-center align-items-center",
-                            tags$div(
-                              class = "col-12",
-                              h5(class = "text-center",
-                                 "TOP 10 der zusätzlichen Dosen der Impfstoffe"),
-                              tags$div(class = "d-flex justify-content-center",
-                                       tableOutput("add_doses_vaccines_table"))
-                            )),
-                   tags$div(class = "col-12 col-md-6 d-flex align-items-center",
-                            tags$div(
-                              class = "col-12",
-                              h5(class = "text-center",
-                                 "Verhältnis der zusätzlichem Impfdosen der 
+                       tags$div(
+                         class = "col-12",
+                         h5(class = "text-center",
+                            "TOP 10 der zusätzlichen Dosen der Impfstoffe"),
+                         tags$div(class = "d-flex justify-content-center",
+                                  tableOutput("add_doses_vaccines_table"))
+                       )
+                     ),
+                     tags$div(class = "col-12 col-md-6 d-flex align-items-center",
+                              tags$div(
+                                class = "col-12",
+                                h5(class = "text-center",
+                                   "Verhältnis der zusätzlichem Impfdosen der
                                  Impfstoffe"),
-                              plotlyOutput("add_doses_vaccines_pie")
-                            ))
-                 )
-               )
-             )),
-    
-    
-    tabPanel(
-      "Länder",
-      tags$br(),
-      # drop down choices for target group
-      selectInput(
-        "selectedTargetGroup_countries",
-        "Wähle eine Zielgruppe aus:",
-        choices = target_groups,
-        selected = "All"
-      ),
-      fluidRow(
-        # insert space on left and right side
-        style = "margin-left: 15px; margin-right: 15px;",
-        tags$h4("Gesamtdosen pro Land"),
-        # bar chart most doses per country
-        plotOutput("bar_chart_most_vaccinations")
-      ),
-      
-      # dividing line
-      tags$hr(),
-      
-      mainPanel(
-        tags$br(),
-        tags$h4("Länder mit den meisten Dosen"),
-        tags$br(),
-        # table: In which countries were the most vaccinated
-        dataTableOutput("top_countries_table")
-      )
-    ),
-    
-    tabPanel(
-      "Impfdosen",
-      # line graph: Different Doses over time
-      # table: In which country was the refusal rate highest
-      # line graph
-      fluidRow(
-        # insert space on left and right side
-        style = "margin-left: 15px; margin-right: 15px;",
-        tags$h4("Alle Impfdosengruppen abgebildet über die Zeit"),
-        # bar chart most doses per country
-        plotlyOutput("line_chart_doses_over_time")
-      ),
-      # dividing line
-      tags$hr(),
-      mainPanel(
-        tags$br(),
-        tags$h4("Impfdosen pro Land"),
-        tags$br(),
-        # table: In which countries were the most vaccinated
-        dataTableOutput("doses_per_country")
-      )
-    ),
-    
-    tabPanel(
-      "Zielgruppen",
-      # pie chart + line graph: comparison of target groups
-      # per unit of time
-      # per country
-      # in dropdown menus
-      tags$br(),
-      sidebarPanel(
-        # drop down choices for country
-        selectInput(
-          "selectedCountry",
-          "Wähle ein Land aus:",
-          choices = countries,
-          selected = "All"
-        ),
-        # drop down choices for target group
-        selectInput(
-          "selectedTargetGroup_targetgroups",
-          "Wähle eine Zielgruppe aus:",
-          choices = target_groups,
-          selected = "All"
-        )
-      ),
-      mainPanel(
-        # line graph
-        plotlyOutput("line_chart_total_doses"),
-        tags$br()),
-      sidebarPanel(
-        # set sidebar panel of pie chart invisible
-        style = "display: none;",),
-      mainPanel(
-        # pie chart plot
-        plotlyOutput("target_group_pie"))
-      
-    ),
-    
-    tabPanel("Über uns",
-             # about tab
-             fluidRow(column(
-               12,
-               tags$div(
-                 h3("Über unsere App"),
-                 # reference to data science and thu website
-                 p(
-                   'Willkommen zur "Covid App", entwickelt von
+                                plotlyOutput("add_doses_vaccines_pie")
+                              ))
+                     )
+                     )
+                   )),
+          
+          
+          tabPanel(
+            "Länder",
+            tags$div(
+              class = "container",
+              tags$h3(class = "text-center", "Länderbezogene Impfstoffvergabe"),
+              tags$div(
+                class = "row div_border",
+                tags$p(
+                  class = "text_block" ,
+                  "Hier können Sie eine Altersgruppe auswählen, für welche dann
+                  die Gesamtanzahl der verabreichten Impfdosen im jeweiligen
+                  Land angezeigt wird."
+                  ),
+                tags$div(
+                  class = "col-12 d-flex justify-content-center",
+                  # drop down choices for target group
+                  selectInput(
+                    "selectedTargetGroup_countries",
+                    "Wähle eine Zielgruppe aus:",
+                    choices = target_groups,
+                    selected = "All"
+                  )
+                ),
+                
+                tags$div(
+                  class = "col-12",
+                  tags$h4("Gesamtdosen pro Land"),
+                  # bar chart most doses per country
+                  plotOutput("bar_chart_most_vaccinations")
+                ),
+              ),
+              
+              tags$div(
+                class = "row div_border d-flex
+                        justify-content-center align-items-center",
+                tags$div(
+                  tags$div(
+                    class = "col-12",
+                    tags$h4(class = "text-center",
+                            "Länder mit den meisten Impfdosen"),
+                  ),
+                  tags$div(class = "col-12",
+                           # table: In which countries were the most vaccinated
+                           uiOutput(
+                             "top_countries_table"
+                           )
+                  )
+                )
+              )
+            )
+          ),
+          
+          tabPanel(
+            "Impfdosen",
+            # line graph: Different Doses over time
+            # table: In which country was the refusal rate highest
+            # line graph
+            tags$div(
+              class = "container",
+              tags$h3(class = "text-center", "Verschiedene Impfdosenarten"),
+              tags$div(
+                class = "row div_border",
+                tags$div(
+                  class = "col-12",
+                  tags$p(
+                    class = "text_block" ,
+                    "In diesem Liniengraphen wird die zeitliche Vergabe der 
+                    ersten und zweiten Impfdosis, sowie den zusätzlichen 
+                    Impfdosen abgebildet."
+                  ),
+                  tags$h4(class = "text-center",
+                          "Alle Impfdosengruppen abgebildet über die Zeit"),
+                  # bar chart most doses per country
+                  plotlyOutput("line_chart_doses_over_time")
+                )
+              ),
+              
+              tags$div(
+                class = "row div_border",
+                tags$p(
+                  class = "text_block" ,
+                  "In dieser Tabelle werden die verschiedenen Impfdosen pro Land
+                  dargestellt. Es wird dabei zwischen der ersten und zweiten, 
+                  der ersten zusättzlichen Impfdosis und noch allen weiteren 
+                  zusätzlichen Impfdosen unterschieden."
+                ),
+                tags$div(
+                  class = "col-12",
+                  tags$h4(class = "text-center",
+                          "Impfdosen pro Land"),
+                  # table: In which countries were the most vaccinated
+                  uiOutput("doses_per_country")
+                )
+              )
+            )
+          ),
+          
+          tabPanel(
+            "Zielgruppen",
+            # pie chart + line graph: comparison of target groups
+            # per unit of time
+            # per country
+            # in dropdown menus
+            tags$div(
+              class = "container",
+              tags$h3(class = "text-center", "Verschiedene Zielgruppen"),
+              tags$div(
+                class = "row div_border",
+                tags$p(
+                  class = "text_block" ,
+                  "In diesen beiden Dropdown Menus können Sie ein Land, sowie 
+                  eine Altersgruppe auswählen. Im nachfolgenden 
+                  Liniendragramm wird dann die Summer der Impfdosen in einer 
+                  Woche über eine Zeitspanne dargestellt. Im unteren 
+                  Kuchendiagramm wird dann angezeigt, wie groß der Anteil an 
+                  verabreichten Impfdosen für eine Altersgruppe in einem
+                  zuvor ausgewählten Land ist."
+                ),
+                tags$div(
+                  class = "col-12 d-flex justify-content-center",
+                  # drop down choices for country
+                  selectInput(
+                    "selectedCountry",
+                    "Wähle ein Land aus:",
+                    choices = countries,
+                    selected = "All"
+                  ),
+                  # drop down choices for target group
+                  selectInput(
+                    "selectedTargetGroup_targetgroups",
+                    "Wähle eine Zielgruppe aus:",
+                    choices = target_groups,
+                    selected = "All"
+                  )
+                ),
+                tags$div(
+                  class = "col-12",
+                  plotlyOutput("line_chart_total_doses"),
+                ),       
+                
+                tags$div(
+                  class = "col-12 margin_bot",
+                  plotlyOutput("target_group_pie")
+                )
+              )
+            )
+          ),
+          
+          tabPanel("Über uns",
+                   # about tab
+                   fluidRow(column(
+                     12,
+                     tags$div(
+                       h3("Über unsere App"),
+                       # reference to data science and thu website
+                       p(
+                         'Willkommen zur "Covid App", entwickelt von
                             Studierenden im fünften Fachsemester des Studiengangs ',
-                   a(href = "https://www.thu.de/de/Seiten/Studiengang_DSM.aspx",
-                     "Data Science in der Medizin"),
-                   ' an der ',
-                   a(href = "https://www.thu.de/de",
-                     "Technischen Hochschule Ulm"),
-                   '. Diese App entstand im Rahmen unserer Projektarbeit
+                         a(href = "https://www.thu.de/de/Seiten/Studiengang_DSM.aspx",
+                           "Data Science in der Medizin"),
+                         ' an der ',
+                         a(href = "https://www.thu.de/de",
+                           "Technischen Hochschule Ulm"),
+                         '. Diese App entstand im Rahmen unserer Projektarbeit
                             im Wahlpflichtfach "Einführung in R und Shiny Apps"
                             und dient gleichzeitig als Prüfungsleistung.'
-                 ),
-                 br(),
-                 h3("Funktionen der App"),
-                 p(
-                   'Die "Covid App" bietet eine intuitive
+                       ),
+                       br(),
+                       h3("Funktionen der App"),
+                       p(
+                         'Die "Covid App" bietet eine intuitive
                             Benutzeroberfläche, die es ermöglicht, Daten im
                             Zusammenhang mit COVID-19-Impfungen in den Ländern
                             der Europäischen Union und des Europäischen
@@ -319,77 +416,80 @@ fluidPage(
                             präsentiert umfassende Informationen über die
                             Verteilung von Impfstoffdosen, Verabreichungsraten
                             und Ablehnungsstatistiken.'
-                 ),
-                 br(),
-                 h4("Weitere Informationen"),
-                 p(
-                   "Besuchen Sie diese Website für weitere
+                       ),
+                       br(),
+                       h4("Weitere Informationen"),
+                       p(
+                         "Besuchen Sie diese Website für weitere
                             Informationen über den Datensatz: ",
-                   a(href = "https://www.ecdc.europa.eu/en/publications-data/data-covid-19-vaccination-eu-eea",
-                     "Hier klicken")
-                 ),
-                 br(),
-                 
-                 
-                 h4("Entwickler"),
-                 p("Yannik Krantz",
-                   a(
-                     href = "https://github.com/Y4ng0", img(
-                       src = "github-mark.png",
-                       height = 20,
-                       width = 20
+                         a(href = "https://www.ecdc.europa.eu/en/publications-data/data-covid-19-vaccination-eu-eea",
+                           "Hier klicken")
+                       ),
+                       br(),
+                       
+                       
+                       h4("Entwickler"),
+                       p("Yannik Krantz",
+                         a(
+                           href = "https://github.com/Y4ng0", img(
+                             src = "github-mark.png",
+                             height = 20,
+                             width = 20
+                           )
+                         )),
+                       p(
+                         "Alexander Metzler",
+                         a(href = "https://github.com/alxmtzr", img(
+                           src = "github-mark.png",
+                           height = 20,
+                           width = 20
+                         ))
+                       ),
+                       p(
+                         "Florian Hauptmann",
+                         a(href = "https://github.com/Flo3141", img(
+                           src = "github-mark.png",
+                           height = 20,
+                           width = 20
+                         ))
+                       ),
+                       
+                       br(),
+                       
+                       h4("GitHub Project"),
+                       p(
+                         "R Shiny Covid App",
+                         a(href = "https://github.com/RShiny-App/rshiny-covid-app", img(
+                           src = "github-mark.png",
+                           height = 20,
+                           width = 20
+                         ))
+                       )
                      )
-                   )),
-                 p(
-                   "Alexander Metzler",
-                   a(href = "https://github.com/alxmtzr", img(
-                     src = "github-mark.png",
-                     height = 20,
-                     width = 20
-                   ))
-                 ),
-                 p(
-                   "Florian Hauptmann",
-                   a(href = "https://github.com/Flo3141", img(
-                     src = "github-mark.png",
-                     height = 20,
-                     width = 20
-                   ))
-                 ),
-                 
-                 br(),
-                 
-                 h4("GitHub Project"),
-                 p(
-                   "R Shiny Covid App",
-                   a(href = "https://github.com/RShiny-App/rshiny-covid-app", img(
-                     src = "github-mark.png",
-                     height = 20,
-                     width = 20
-                   ))
-                 )
-               )
-             ))),
+                   ))),
+        )
+      ) %>%
+        tagAppendAttributes(.cssSelector = "nav",
+                            class = "navbar navbar-expand-lg")
+    )
   )
-) %>%
-  tagAppendAttributes(.cssSelector = "nav",
-                      class = "navbar navbar-expand-lg")
+)
 
 ### References:
-# Shiny tags html 
+# Shiny tags html
 # * https://shiny.posit.co/r/articles/build/html-tags/
-#   
+#
 #   Logo in titlePanel
 # * https://stackoverflow.com/questions/36182535/how-to-place-an-image-in-an-r-shiny-title
-# 
+#
 # bootstrap themes
 # * https://mastering-shiny.org/action-layout.html
-# 
-# dark mode switch, shinywidgets 
+#
+# dark mode switch, shinywidgets
 # * https://dreamrs.github.io/shinyWidgets/
-#   
+#
 #   setting theme in fluidPage AND navbar Page
 # * https://stackoverflow.com/questions/70095322/dark-mode-switch-doesnt-work-using-navbarpage-shiny
-# 
+#
 # pie chart plot
 # * https://stackoverflow.com/questions/41255810/r-shinyapp-not-showing-plot-ly-in-browser-but-show-only-graph-in-viewer-pane
