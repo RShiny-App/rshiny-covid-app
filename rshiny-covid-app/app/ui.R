@@ -350,7 +350,7 @@ fluidPage(
                   class = "text_block" ,
                   "In diesen beiden Dropdown Menus können Sie ein Land, sowie 
                   eine Altersgruppe auswählen. Im nachfolgenden 
-                  Liniendragramm wird dann die Summer der Impfdosen in einer 
+                  Liniendragramm wird dann die Summe der Impfdosen in einer 
                   Woche über eine Zeitspanne dargestellt. Im unteren 
                   Kuchendiagramm wird dann angezeigt, wie groß der Anteil an 
                   verabreichten Impfdosen für eine Altersgruppe in einem
