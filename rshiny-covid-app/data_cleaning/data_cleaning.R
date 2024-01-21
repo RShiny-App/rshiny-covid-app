@@ -6,15 +6,13 @@ library(stringr)
 
 # Step 1: Exchange all the na values in numeric Columns by 0
 # 
-numeric_cols <- sapply(df, is.numeric)  # True/False Vector of numeric columns
-numeric_df <- df[, numeric_cols] # Subset dataframe with aforementioned Vector
-numeric_df[is.na(numeric_df)] <- 0 # Replace all na values in subset
-df[, numeric_cols] <- numeric_df # Replace all relevant columns with columns of subset
-rm(numeric_cols, numeric_df)
+df <- df %>% mutate_if(is.numeric, function(x) ifelse(is.na(x), 0, x))
 
-# Step 2: Merge AdditionalDose 2-5 to MoreAdditionalDoses (we leave them in for now)
+# Step 2: Merge AdditionalDose 2-5 to MoreAdditionalDoses 
+# Drop merged columns
 #
 df$MoreAdditionalDoses <- rowSums(df[, c('DoseAdditional2','DoseAdditional3', 'DoseAdditional4','DoseAdditional5')])
+df <- df %>% select( -DoseAdditional2, -DoseAdditional3, -DoseAdditional4, -DoseAdditional5)
 
 # Step 3: Rename and relocate Columns
 #

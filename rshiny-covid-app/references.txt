@@ -28,3 +28,7 @@ render data table total doses per country
 
 Documentation for summarise_if
 * https://dplyr.tidyverse.org/reference/summarise_all.html 
+
+Data cleaning:
+Austauschen von numerischen Werten
+* https://stackoverflow.com/questions/71618855/how-to-replace-all-na-values-in-numerical-columns-only-with-median-values-and-up 
